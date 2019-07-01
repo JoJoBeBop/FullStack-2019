@@ -1,0 +1,31 @@
+title Uusi note selaimessa
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+palvelin-->selain: Status Code 302
+
+note right of selain:
+HTTP-pyyntö, joka pitää sisällään lomakkeen
+datan osoitteeseen new_note
+ja vastaukseksi saadaan uudelleenohjauspyyntö,
+joka käynnistää kolme HTTP-pyyntöä:
+main.js, main.css ja data.json
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin-->selain: HTML-koodi
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin-->selain: main.js
+
+note right of selain
+js-koodi, joka pyytää JSON-dataa
+palvelimelta suoritetaan
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: [{ content: "Tämä on uusi", date: "2019-28-06" }, ...]
+note right of selain
+selain renderöi saadut notesit ruudulle
+suoritettuaan tapahtumankäsittelijän
+end note
