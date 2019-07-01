@@ -1,0 +1,13 @@
+title Uusi note spa-selaimessa
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+palvelin-->selain: Status Code 201
+
+note right of selain:
+Lähettäessä selain lataa js-koodin, jossa tehdään
+HTTP-pyyntö, joka pitää sisällään JSON-muodossa
+lomakkeen datan osoitteeseen new_note_spa ja 
+vastaukseksi saadaan 201 statuskoodi
+onnistuneesta lisäyksestä sekä uusi tieto
+renderöidään ruudulle
+end note
