@@ -1,75 +1,71 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 
+const Statistics = (props) => {
+};
+
+
 const App = () => {
+    // tallenna napit omaan tilaansa
+    const [good, setGood] = useState(0);
+    const [neutral, setNeutral] = useState(0);
+    const [bad, setBad] = useState(0);
+    const [allClicks, setAll] = useState([])
 
-    const course = 'Half Stack application development';
-    const part1 = 'Fundamentals of React';
-    const exercises1 = 10;
-    const part2 = 'Using props to pass data';
-    const exercises2 = 7;
-    const part3 = 'State of a component';
-    const exercises3 = 14;
-
-    /*Didn't come up with a different solution*/
-    const subjects = [
-        {courseName: "Fundamentals of React", taskAmount: 10},
-        {courseName: "Using props to pass data", taskAmount: 7},
-        {courseName: "State of a component", taskAmount: 14}
-
-    ];
-
-    const Header = (props) => {
-        return (
-            <div>
-                <p>Course name: {props.name}</p>
-                <hr/>
-            </div>
-        )
-
+    const setToGood = newValue => {
+        setGood(newValue);
+        setAll(allClicks.concat(1));
+        console.log("G", good)
     };
 
-    const Content = (props) => {
-        console.log("content");
-        console.log(props);
-
-        return (
-            <div>
-                <Part p={props.subjects[0]}/>
-                <Part p={props.subjects[1]}/>
-                <Part p={props.subjects[2]}/>
-                <hr/>
-            </div>
-        )
-
+    const setToNeutral = newValue => {
+        setNeutral(newValue);
+        setAll(allClicks.concat(0));
+        console.log("N", neutral)
     };
 
-    const Part = (props) => {
-        console.log("parts");
-        console.log(props);
-
-        return (
-            <p>{props.p.courseName} {props.p.taskAmount}</p>
-        )
+    const setToBad = newValue => {
+        setBad(newValue);
+        setAll(allClicks.concat(-1));
+        console.log("B", bad)
     };
 
-    const Total = (props) => {
-        return (
-            <p>Amount of Assignments: {props.total}</p>
-        )
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+    let average = allClicks.reduce(reducer, 0) / allClicks.length;
+
+    let allVotes = good + bad + neutral;
+
+    let checkPositive = (pos) => {
+        return pos === 1;
     };
+
+    let positive = (allClicks.filter(checkPositive).length / allClicks.length) * 100;
 
     return (
         <div>
-            <p>
-                <Header name={course}/>
-                <Content subjects={subjects}/>
-                <Total total={exercises1 + exercises2 + exercises3}/>
-            </p>
+            <h3>Give Feedback!</h3>
+
+            <button onClick={() => setToGood(good + 1)}>Good</button>
+            <button onClick={() => setToNeutral(neutral + 1)}>Neutral</button>
+            <button onClick={() => setToBad(bad + 1)}>Bad</button>
+
+            <h3>Statistics</h3>
+            <p>Good: {good}</p>
+            <p>Neutral: {neutral}</p>
+            <p>Bad: {bad}</p>
+            <hr/>
+
+            <p>All: {allVotes}</p>
+            <p>Average: {average}</p>
+            <p>Positive: {positive}%</p>
+
         </div>
+
+
     )
 };
 
-ReactDOM.render(<App/>, document.getElementById('root'));
-
+ReactDOM.render(<App/>,
+    document.getElementById('root')
+);
