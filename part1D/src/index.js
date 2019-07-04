@@ -3,14 +3,21 @@ import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {
     console.log(props);
-    return(
+    if (props.all === 0) {
+        return (
+            <h3>No Feedback Given Yet!</h3>
+        )
+    }
+
+    return (
         <div>
             <p>Total: {props.all}</p>
             <p>Average: {props.ave}</p>
             <p>Positive: {props.pos}%</p>
-
         </div>
     )
+
+
 };
 
 
@@ -65,7 +72,6 @@ const App = () => {
             <p>Bad: {bad}</p>
             <hr/>
             <Statistics all={allVotes} ave={average} pos={positive}/>
-
 
 
         </div>
