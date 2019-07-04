@@ -12,28 +12,25 @@ const Statistics = (props) => {
     }
 
     return (
-        <div>
+        <table>
             <Statistic text="Good" value={props.go}/>
             <Statistic text="Neutral" value={props.neu}/>
             <Statistic text="Bad" value={props.ba}/>
-            <hr/>
             <Statistic text="Total" value={props.all}/>
             <Statistic text="Average" value={props.ave}/>
             <Statistic text="Positive" value={props.pos}/>
-
-            <p>Total: {props.all}</p>
-            <p>Average: {props.ave}</p>
-            <p>Positive: {props.pos}%</p>
-        </div>
+        </table>
     )
 };
 
 const Statistic = (props) => {
-    console.log(props);
+
     return (
-        <>
-            <p>{props.text}: {props.value}</p>
-        </>
+        <tbody>
+        <tr>
+            <td>{props.text}:{props.value}</td>
+        </tr>
+        </tbody>
 
 
     )
@@ -76,13 +73,15 @@ const App = () => {
 
     return (
         <div>
-            <h3>Give Feedback!</h3>
+            <div>
+                <h3>Give Feedback!</h3>
 
-            <button onClick={() => setToGood(good + 1)}>Good</button>
-            <button onClick={() => setToNeutral(neutral + 1)}>Neutral</button>
-            <button onClick={() => setToBad(bad + 1)}>Bad</button>
+                <button onClick={() => setToGood(good + 1)}>Good</button>
+                <button onClick={() => setToNeutral(neutral + 1)}>Neutral</button>
+                <button onClick={() => setToBad(bad + 1)}>Bad</button>
 
-            <h3>Statistics</h3>
+                <h3>Statistics</h3>
+            </div>
             {/*            <Statistic>Good: {good}</Statistic>
             <Statistic>Neutral: {neutral}</Statistic>
             <Statistic>Bad: {bad}</Statistic>
