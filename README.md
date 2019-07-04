@@ -1,5 +1,5 @@
 # MY EXERCISE METHODOLOGY
-part1 = Part 1 A ( 1.1 - 1.2 ) (https://www.google.com "Google's Homepage")
+part1 = Part 1 A ( 1.1 - 1.2 ) [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
 
 part1B = Part 1 B ( 1.3 - 1.5 )
 
