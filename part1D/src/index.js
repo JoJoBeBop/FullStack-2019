@@ -2,7 +2,9 @@ import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {
-    console.log(props);
+    /*
+        console.log(props);
+    */
     if (props.all === 0) {
         return (
             <h3>No Feedback Given Yet!</h3>
@@ -11,13 +13,30 @@ const Statistics = (props) => {
 
     return (
         <div>
+            <Statistic text="Good" value={props.go}/>
+            <Statistic text="Neutral" value={props.neu}/>
+            <Statistic text="Bad" value={props.ba}/>
+            <hr/>
+            <Statistic text="Total" value={props.all}/>
+            <Statistic text="Average" value={props.ave}/>
+            <Statistic text="Positive" value={props.pos}/>
+
             <p>Total: {props.all}</p>
             <p>Average: {props.ave}</p>
             <p>Positive: {props.pos}%</p>
         </div>
     )
+};
+
+const Statistic = (props) => {
+    console.log(props);
+    return (
+        <>
+            <p>{props.text}: {props.value}</p>
+        </>
 
 
+    )
 };
 
 
@@ -31,19 +50,16 @@ const App = () => {
     const setToGood = newValue => {
         setGood(newValue);
         setAll(allClicks.concat(1));
-        console.log("G", good)
     };
 
     const setToNeutral = newValue => {
         setNeutral(newValue);
         setAll(allClicks.concat(0));
-        console.log("N", neutral)
     };
 
     const setToBad = newValue => {
         setBad(newValue);
         setAll(allClicks.concat(-1));
-        console.log("B", bad)
     };
 
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -67,11 +83,12 @@ const App = () => {
             <button onClick={() => setToBad(bad + 1)}>Bad</button>
 
             <h3>Statistics</h3>
-            <p>Good: {good}</p>
-            <p>Neutral: {neutral}</p>
-            <p>Bad: {bad}</p>
-            <hr/>
-            <Statistics all={allVotes} ave={average} pos={positive}/>
+            {/*            <Statistic>Good: {good}</Statistic>
+            <Statistic>Neutral: {neutral}</Statistic>
+            <Statistic>Bad: {bad}</Statistic>
+            <hr/>*/}
+
+            <Statistics all={allVotes} ave={average} pos={positive} go={good} ba={bad} neu={neutral}/>
 
 
         </div>
