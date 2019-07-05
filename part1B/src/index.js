@@ -32,6 +32,7 @@ const App = () => {
     };
 
     const Content = (props) => {
+        console.log("content", props);
         return (
             <div>
                 <Part p={props.parts.parts[0]}/>
@@ -44,6 +45,8 @@ const App = () => {
     };
 
     const Part = (props) => {
+        console.log("parts", props);
+
         return (
             <p>{props.p.name} {props.p.exercises}</p>
         )
