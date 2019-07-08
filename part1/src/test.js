@@ -3,10 +3,35 @@ import React from 'react'
 import Course from './components/Course'
 */
 
-const Header = ({ note }) => {
-    console.log(note)
+
+const Header = ({course}) => {
+    console.log(course)
+
     return (
-        <p>{note.name}</p>
+        <h1>{course.name}</h1>
+    )
+}
+
+
+const Content = ({course}) => {
+    return course.parts.map(note => {
+            console.log(note.name);
+            return (
+                <div key={note.id}>
+                    <p>{note.name} {note.exercises}</p>
+                </div>
+            )
+        }
+    )
+}
+
+const Total = ({course}) => {
+    console.log(course);
+    const sum = course.reduce((prev, cur) => prev + cur.exercises, 0);
+    return (
+        <div>
+            <h4>Total amount of exercises: {sum}</h4>
+        </div>
     )
 }
 
@@ -30,41 +55,27 @@ const App = () => {
                 name: 'State of a component',
                 exercises: 14,
                 id: 3
-            },
-            {
-                name: 'Node.js',
-                parts: [
-                    {
-                        name: 'Routing',
-                        exercises: 3,
-                        id: 1
-                    },
-                    {
-                        name: 'Middlewares',
-                        exercises: 7,
-                        id: 2
-                    }
-                ]
             }
         ]
     };
 
-    const Course = () =>
-        course.parts.map(note =>
-            <Header
-                key={note.id}
-                note={note}/>
-        );
+    const Course = () => {
+        return (
+            <div>
+                <Header course={course}/>
+                <Content course={course}/>
+                <Total course={course.parts}/>
+
+            </div>
+
+        )
+    }
 
 
-    console.log();
 
     return (
         <div>
-
-            <h1> {course.name} </h1>
-
-            {Course()}
+            <Course course={course}/>
         </div>
     )
 };
