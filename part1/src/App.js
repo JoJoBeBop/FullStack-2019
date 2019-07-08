@@ -9,27 +9,31 @@ const Header = ({course}) => {
 
     return (
         <h1>{course.name}</h1>
-
     )
-
 }
 
 
 const Content = ({course}) => {
-
     return course.parts.map(note => {
             console.log(note.name);
             return (
                 <div key={note.id}>
                     <p>{note.name} {note.exercises}</p>
                 </div>
-
-
             )
-
         }
     )
 }
+
+const Total = ({course}) => {
+    const sum = course.reduce((prev, cur) => prev + cur.exercises, 0);
+    return (
+        <div>
+            <h4>Total amount of exercises: {sum}</h4>
+        </div>
+    )
+}
+
 
 const App = () => {
 
@@ -59,30 +63,13 @@ const App = () => {
             <div>
                 <Header course={course}/>
                 <Content course={course}/>
+                <Total course={course.parts}/>
+
             </div>
 
         )
     }
 
-
-    /*    const Course = () =>
-
-            course.parts.map(note => {
-                    console.log(note);
-                    return (
-                        <div>
-                            <Content
-                                key={note.id}
-                                note={note}/>
-                        </div>
-
-                    )
-                }
-            )*/
-
-
-    /*        course.parts.map(headerData =>
-            <Header headerData={headerData}/>*/
 
 
     return (
