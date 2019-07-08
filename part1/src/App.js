@@ -4,6 +4,33 @@ import Course from './components/Course'
 */
 
 
+const Header = ({course}) => {
+    console.log(course)
+
+    return (
+        <h1>{course.name}</h1>
+
+    )
+
+}
+
+
+const Content = ({course}) => {
+
+    return course.parts.map(note => {
+            console.log(note.name);
+            return (
+                <div key={note.id}>
+                    <p>{note.name} {note.exercises}</p>
+                </div>
+
+
+            )
+
+        }
+    )
+}
+
 const App = () => {
 
     const course = {
@@ -27,26 +54,43 @@ const App = () => {
         ]
     };
 
-    const Course = () =>
-        course.parts.map(note =>
-            <div key={note.id}>
-
-                <p>
-                    {note.name} {note.exercises}
-                </p>
+    const Course = () => {
+        return (
+            <div>
+                <Header course={course}/>
+                <Content course={course}/>
             </div>
-        );
 
-    console.log();
+        )
+    }
+
+
+    /*    const Course = () =>
+
+            course.parts.map(note => {
+                    console.log(note);
+                    return (
+                        <div>
+                            <Content
+                                key={note.id}
+                                note={note}/>
+                        </div>
+
+                    )
+                }
+            )*/
+
+
+    /*        course.parts.map(headerData =>
+            <Header headerData={headerData}/>*/
+
 
     return (
         <div>
-
-            <h1> {course.name} </h1>
-
-            {Course()}
+            <Course course={course}/>
         </div>
     )
 };
+
 
 export default App
