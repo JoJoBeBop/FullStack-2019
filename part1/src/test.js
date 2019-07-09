@@ -1,7 +1,8 @@
-import React from 'react'
 /*
+import React from 'react'
+/!*
 import Course from './components/Course'
-*/
+*!/
 
 
 const Header = ({course}) => {
@@ -81,4 +82,4 @@ const App = () => {
 };
 
 
-export default App
+export default App*/

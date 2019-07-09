@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 /package.json
 /yarn.lock
+/src/test.js
+/public/manifest.json
+/package-lock.json
