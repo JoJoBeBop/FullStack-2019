@@ -1,11 +1,15 @@
 import React from "react"
+import axios from 'axios'
 
-const filterSearch= (array, string) => {
+
+const filterSearch = (array, string) => {
+    const lowerString = string.toString().toLowerCase();
     return array.filter(object =>
-        Object.keys(object).some(objKey => object[objKey].toLowerCase().includes(string.toString().toLowerCase())));
+        Object.keys(object).some(objKey => object[objKey].toString().toLowerCase().includes(lowerString)));
 };
 
 const Person = (person) => {
+    console.log("jo");
     return (
         <div>
             <p>{person.person.name}</p>
@@ -15,13 +19,17 @@ const Person = (person) => {
     )
 };
 
-//Maps through names and calls Person
-const showNames = (persons) => persons.map(person => /*console.log(matchPerson) ||*/
-    <Person
-        key={person.name}
-        person={person}
 
-    />
+//Maps through names and calls Person
+const showNames = (persons) => persons.map(person => {
+        return (
+            <Person
+                key={person.name}
+                person={person}
+
+            />
+        )
+    }
 );
 
-export {Person, showNames, filterSearch}
+export {showNames, filterSearch}
