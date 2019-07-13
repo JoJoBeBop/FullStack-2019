@@ -11,13 +11,17 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('');
     const [matchPerson, setMatchPerson] = useState("");
     const [newSearch, setNewSearch] = useState(false);
+    const [isTaken, setIsTaken] = useState(false);
+
+
 
     useEffect(() => {
         requestFunction.getAllPersons().then(response => {
             setPersons(response);
             console.log("res ", persons)
         })
-    }, [])
+    }, []);
+
 
     //Dumb way to do it, improve it later with booleans
     const handleFilter = (event) => {
@@ -31,6 +35,7 @@ const App = () => {
 
         } else {
             setNewSearch(true);
+            console.log(newSearch);
             setMatchPerson(newArray);
 
         }
@@ -38,55 +43,89 @@ const App = () => {
 
     //setNewName
     const handleNewName = (event) => {
-        persons.map((per) => {
-
-                if (per.name === event.target.value) {
-                    alert(`${per.name} is already in use pal`)
-                }
-            }
-        );
-
         setNewName(event.target.value)
     };
 
     //setNewNumber
     const handleNewNumber = (event) => {
-        persons.map((per) => {
-
-                if (per.number === event.target.value) {
-                    alert(`${per.number} is already in use pal`)
-                } else {
-                    setNewNumber(event.target.value)
-                }
-            }
-        );
+        setNewNumber(event.target.value)
 
     };
 
+/*    const addNameHook = (event) => {
 
-    //Adds newName to the list
-    const addName = (event) => {
+        console.log("first", isTaken);
+
         event.preventDefault();
         const nameObject = {
             name: newName,
             number: newNumber
         };
 
-        createNewPerson(nameObject);
+        const checkHook = () => {
+            const dicks = (bool) => {
+                setIsTaken(bool);
 
-        /*        setPersons(persons.concat(nameObject));
-                setNewName("")*/
 
+            }
+            console.log("check");
+            persons.map((per) => {
+                console.log(nameObject.name);
+                if (per.name === nameObject.name) {
+                    dicks(true)
+                    console.log("second", isTaken);
+                    alert(`${per.name} is already in use pal`)
+
+                }
+            });
+
+            if (isTaken === false) {
+                console.log("first 1", isTaken);
+                createNewPerson(nameObject);
+            }
+
+        }
+        checkHook(event)
+        return [isTaken, ]
+
+    };*/
+
+
+    //Adds newName to the list
+    const addName = (event) => {
+        event.preventDefault();
+
+        const nameObject = {
+            name: newName,
+            number: newNumber
+        };
+
+        /*        let hookedNames = [...persons];
+        console.log(hookedNames);*/
+
+        let loopedNames = persons.map((per) => per.name);
+        const nameFiltered = persons.filter(person => { return person.name === nameObject.name})[0];
+        console.log(nameFiltered.id);
+
+        if (loopedNames.includes(nameObject.name)) {
+            if (window.confirm(`${nameObject.name} is already in use pal. Do you want to update the number?`)) {
+                requestFunction.updatePerson(nameFiltered.id, nameObject).
+                    catch(e => console.log(e))
+            }
+        }
 
     };
+
+
     const createNewPerson = person => {
-        requestFunction.createPerson(person).catch(e => {
-            console.log("createNewPerson fail", e)
-        })
+        requestFunction.createPerson(person)
+            .catch(e => {
+                console.log("createNewPerson fail", e)
+            })
     };
 
     /*Input stops working when done like this?*/
-    const PersonForm = () => {
+/*    const PersonForm = () => {
         return (
             <form onSubmit={addName}>
                 <h2>Add a New Number</h2>
@@ -108,9 +147,10 @@ const App = () => {
                 </div>
             </form>
         )
-    };
+    };*/
 
     const showPersons = () => {
+        console.log("jou");
         return (
             newSearch === false ? (
                 showNames(persons)
@@ -118,7 +158,7 @@ const App = () => {
                 showNames(matchPerson)
             )
         )
-    }
+    };
 
 
     return (

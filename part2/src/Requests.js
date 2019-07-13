@@ -1,15 +1,30 @@
 import axios from 'axios'
 const personsURL = "http://localhost:3001/persons";
 
-const getAllPersons = () => {
-    const request = axios.get(personsURL);
-    return request.then(response => response.data)
-};
-
 const createPerson = (newObject) => {
     console.log("Reqs createNewPerson");
-    const request = axios.post(personsURL, newObject);
-    return request.then(response => response.data)
+    const req = axios.post(personsURL, newObject);
+    return req.then(res => res.data)
 };
 
-export default {getAllPersons, createPerson}
+const getAllPersons = () => {
+    const req = axios.get(personsURL);
+    return req.then(res => console.log(res.data) ||
+        res.data)
+};
+
+const removePerson = personId => {
+    console.log("removed");
+    const req = axios.delete(`${personsURL}/${personId}`);
+    return req.then(res => console.log(res.data) ||
+        res.data)
+};
+
+const updatePerson = (id, newObject) => {
+    const req = axios.put(`${personsURL}/${id}`, newObject);
+    return req.then(res => res.data)
+};
+
+
+
+export default {getAllPersons, createPerson, updatePerson, removePerson}
