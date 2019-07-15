@@ -3,6 +3,7 @@ import {showNames, filterSearch} from "./Components"
 import ReactDOM from "react-dom";
 import axios from 'axios'
 import requestFunction from "./Requests"
+import "./index.css"
 
 const App = () => {
 
@@ -12,7 +13,7 @@ const App = () => {
     const [matchPerson, setMatchPerson] = useState("");
     const [newSearch, setNewSearch] = useState(false);
     const [isTaken, setIsTaken] = useState(false);
-
+    const [errorMessage, setErrorMessage] = useState(null);
 
 
     useEffect(() => {
@@ -22,6 +23,23 @@ const App = () => {
         })
     }, []);
 
+    const newTimeOut = () => {
+        setTimeout(() => {
+            setErrorMessage(null)
+        }, 3000)
+    };
+
+    const Notification = ({ message }) => {
+        if (message === null) {
+            return null
+        } else {
+            newTimeOut();
+            return (
+                <div className="error">
+                    {message}
+                </div>
+            )}
+    };
 
     //Dumb way to do it, improve it later with booleans
     const handleFilter = (event) => {
@@ -52,43 +70,43 @@ const App = () => {
 
     };
 
-/*    const addNameHook = (event) => {
+    /*    const addNameHook = (event) => {
 
-        console.log("first", isTaken);
+            console.log("first", isTaken);
 
-        event.preventDefault();
-        const nameObject = {
-            name: newName,
-            number: newNumber
-        };
+            event.preventDefault();
+            const nameObject = {
+                name: newName,
+                number: newNumber
+            };
 
-        const checkHook = () => {
-            const dicks = (bool) => {
-                setIsTaken(bool);
+            const checkHook = () => {
+                const dicks = (bool) => {
+                    setIsTaken(bool);
 
-
-            }
-            console.log("check");
-            persons.map((per) => {
-                console.log(nameObject.name);
-                if (per.name === nameObject.name) {
-                    dicks(true)
-                    console.log("second", isTaken);
-                    alert(`${per.name} is already in use pal`)
 
                 }
-            });
+                console.log("check");
+                persons.map((per) => {
+                    console.log(nameObject.name);
+                    if (per.name === nameObject.name) {
+                        dicks(true)
+                        console.log("second", isTaken);
+                        alert(`${per.name} is already in use pal`)
 
-            if (isTaken === false) {
-                console.log("first 1", isTaken);
-                createNewPerson(nameObject);
+                    }
+                });
+
+                if (isTaken === false) {
+                    console.log("first 1", isTaken);
+                    createNewPerson(nameObject);
+                }
+
             }
+            checkHook(event)
+            return [isTaken, ]
 
-        }
-        checkHook(event)
-        return [isTaken, ]
-
-    };*/
+        };*/
 
 
     //Adds newName to the list
@@ -100,18 +118,30 @@ const App = () => {
             number: newNumber
         };
 
-        /*        let hookedNames = [...persons];
-        console.log(hookedNames);*/
-
         let loopedNames = persons.map((per) => per.name);
-        const nameFiltered = persons.filter(person => { return person.name === nameObject.name})[0];
-        console.log(nameFiltered.id);
+        const nameFiltered = persons.filter(per => { return per.name === nameObject.name})[0];
+        console.log(nameFiltered);
 
         if (loopedNames.includes(nameObject.name)) {
             if (window.confirm(`${nameObject.name} is already in use pal. Do you want to update the number?`)) {
                 requestFunction.updatePerson(nameFiltered.id, nameObject).
-                    catch(e => console.log(e))
+                catch(e => {
+                    console.log("Update name failed", e);
+                    setErrorMessage(`Name ${nameObject.name} has been deleted from the server!`)
+
+                });
+                setErrorMessage(`Name ${nameObject.name} has been updated!`
+                );
             }
+        }
+
+        else {
+            requestFunction.createPerson(nameObject)
+                .catch(e => {
+                    console.log("createNewPerson fail", e)
+                });
+            setErrorMessage(`Name ${nameObject.name} added`
+            );
         }
 
     };
@@ -124,33 +154,34 @@ const App = () => {
             })
     };
 
+
+
     /*Input stops working when done like this?*/
-/*    const PersonForm = () => {
-        return (
-            <form onSubmit={addName}>
-                <h2>Add a New Number</h2>
+    /*    const PersonForm = () => {
+            return (
+                <form onSubmit={addName}>
+                    <h2>Add a New Number</h2>
 
-                <div>
-                    Name:<br/>
-                    <input type={"text"} value={newName}
-                           onChange={handleNewName}/>
-                </div>
-                <div>
-                    Number:<br/>
-                    <input
-                        value={newNumber}
-                        onChange={handleNewNumber}/>
+                    <div>
+                        Name:<br/>
+                        <input type={"text"} value={newName}
+                               onChange={handleNewName}/>
+                    </div>
+                    <div>
+                        Number:<br/>
+                        <input
+                            value={newNumber}
+                            onChange={handleNewNumber}/>
 
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
-        )
-    };*/
+                    </div>
+                    <div>
+                        <button type="submit">add</button>
+                    </div>
+                </form>
+            )
+        };*/
 
     const showPersons = () => {
-        console.log("jou");
         return (
             newSearch === false ? (
                 showNames(persons)
@@ -158,6 +189,11 @@ const App = () => {
                 showNames(matchPerson)
             )
         )
+    };
+
+    const deleteButton = () => {
+        setErrorMessage(`Name  Deleted`)
+
     };
 
 
@@ -190,6 +226,8 @@ const App = () => {
                 </div>
                 <div>
                     <button type="submit">add</button>
+                    <Notification message={errorMessage} />
+
                 </div>
             </form>
             <h2>Numbers</h2>
