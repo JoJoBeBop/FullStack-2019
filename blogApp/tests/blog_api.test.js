@@ -74,14 +74,15 @@ test("A blog with no likes shall be assigned 0 likes", async () => {
 
   expect(newBlog.likes).toBe(0);
 });
+
 test('Blogs must have an "id" not "_id" ', async () => {
   await apiBlogs
     .get('/api/blogs/')
     .expect(200)
     .expect('Content-Type', /application\/json/);
 
-  const res = await apiBlogs.get('/api/blogs/')
-  const idObject = res.body[0]
+  const res = await apiBlogs.get('/api/blogs/');
+  const idObject = res.body[0];
   expect(idObject.id).toBeDefined()
 });
 
@@ -94,7 +95,7 @@ test("A blog has to have title and url assigned", async () => {
   await apiBlogs
     .post("/api/blogs")
     .send(newBlog)
-    .expect(400)
+    .expect(400);
 
   const res = await apiBlogs.get("/api/blogs")
   expect(res.body.length).toBe(helper.initialBlog.length)
