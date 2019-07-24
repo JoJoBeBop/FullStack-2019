@@ -1,21 +1,55 @@
 const blogsRouter = require('express').Router();
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+
 
 const Blog = require('../models/blog');
+const User = require('../models/user');
+
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate("user", {username: 1, name: 1})
   response.json(blogs.map(blog => blog.toJSON()));
 
 });
 
-blogsRouter.post('/', (request, response, next) => {
-  const blog = new Blog(request.body);
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+};
 
-  blog.save().then(result => {
-      response.json(result.toJSON())
-    })
-    .catch(err => next(err))
+blogsRouter.post('/', async (request, response, next) => {
+  const blogBody = request.body;
+  const user = await User.findById(blogBody.userId);
+
+  const token = getTokenFrom(request)
+  console.log(request.headers.authorization);
+
+  try {
+    const decodedToken = jwt.verify(request.headers.authorization, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+  const blog = new Blog({
+    title: blogBody.title,
+    author: blogBody.author,
+    url: blogBody.url,
+    user: user._id
+  });
+
+    const savedBlog = await blog.save();
+    user.blogs = user.blogs.concat(savedBlog._id);
+    await user.save();
+    response.json(savedBlog.toJSON());
+  } catch(exception) {
+    next(exception)
+  }
+
+
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
@@ -28,14 +62,12 @@ blogsRouter.delete("/:id", async (request, response, next) => {
 });
 
 blogsRouter.put("/:id", async (request, response, next) => {
-  console.log(request.body);
   const blogBody = request.body;
 
   const blog = {
     title: blogBody.title,
     author: blogBody.author,
-    url: blogBody.url,
-    likes: blogBody.likes
+    url: blogBody.url
   };
 
   try {
