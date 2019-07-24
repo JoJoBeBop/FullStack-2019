@@ -5,10 +5,23 @@ const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
   console.log('Path:  ', request.path);
   console.log('Body:  ', request.body);
-  console.log("Token: ", request.headers.authorization)
+  console.log("Token: ", request.headers.authorization);
   console.log('---');
   next()
 };
+
+const tokenExtractor = (request, response, next) => {
+  /*  const fullToken = request.headers.authorization;
+    request.token = fullToken.substring(7);*/
+
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    request.token = authorization.substring(7);
+    return next()
+  }
+  return next()
+};
+
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({error: 'unknown endpoint'})
@@ -31,4 +44,4 @@ const errorHandler = (error, request, response, next) => {
 };
 
 
-module.exports = {requestLogger, unknownEndpoint, errorHandler};
+module.exports = {requestLogger, unknownEndpoint, errorHandler, tokenExtractor};
