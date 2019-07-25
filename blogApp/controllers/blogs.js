@@ -16,6 +16,7 @@ blogsRouter.post('/', async (request, response, next) => {
   const user = await User.findById(blogBody.userId);
 
 
+
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!request.token || !decodedToken.id) {
@@ -41,7 +42,23 @@ blogsRouter.post('/', async (request, response, next) => {
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id);
+
   try{
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const user = await User.findById(decodedToken.id);
+
+
+    if (blog.user.toString() !== user._id.toString()) {
+      return response.status(401).json({ error: 'This user does not have the authority to delete this post' })
+    } else {
+      console.log("SUCCESS", blog.user.toString(), user._id.toString())
+    }
+
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end()
   } catch (exception) {
