@@ -15,7 +15,7 @@ const loginRouter = require('./controllers/login');
 console.log('connecting to', config.MONGODB_URI);
 */
 
-logger.info('connecting to', config.MONGODB_URI)
+logger.info('connecting to', config.PORT)
 
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })

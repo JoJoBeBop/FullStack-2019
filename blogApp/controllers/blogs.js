@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router();
-const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const Blog = require('../models/blog');
 const User = require('../models/user');
@@ -14,8 +14,6 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response, next) => {
   const blogBody = request.body;
   const user = await User.findById(blogBody.userId);
-
-
 
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -37,8 +35,6 @@ blogsRouter.post('/', async (request, response, next) => {
   } catch(exception) {
     next(exception)
   }
-
-
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
@@ -82,11 +78,6 @@ blogsRouter.put("/:id", async (request, response, next) => {
     next(exception)
   }
 
-  /*  Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
-      .then(upOne => {
-        response.json(upOne.toJSON())
-      })
-      .catch(err => next(err))*/
 });
 
 module.exports = blogsRouter;
