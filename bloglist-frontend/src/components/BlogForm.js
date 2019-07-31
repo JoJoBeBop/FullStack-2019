@@ -8,11 +8,6 @@ const BlogForm = ({
                   }) => {
   const [loginVisible, setLoginVisible] = useState(false);
 
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
-
-
   const hide = {display: loginVisible ? "none" : ""};
   const show = {display: loginVisible ? '' : 'none'};
 

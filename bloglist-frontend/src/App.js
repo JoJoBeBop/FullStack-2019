@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useResource} from 'react'
+import React, {useState, useEffect} from 'react'
 import blogsService from "./services/blogs"
 import loginService from "./services/login"
 import Notification from './components/Notification'
@@ -7,35 +7,21 @@ import LoginForm from './components/LoginForm'
 import BlogForm from "./components/BlogForm";
 import BlogData from "./components/Blog"
 
-
-/*
-import Logins from './components/LoginForm';
-*/
-
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [loginVisible, setLoginVisible] = useState(false)
 
-  const [newBlog, setNewBlog] = useState("")
   const [blogs, setBlogs] = useState("");
-  /*
-    const newTitle = useField('text');
-    const newAuthor = useField('text');
-    const newUrl = useField('text');
-    */
 
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
 
-
   const [errorMessage, setErrorMessage] = useState(null);
 
 
   useEffect(() => {
-    console.log("shit");
     blogsService
       .getAll()
       .then(initialBlogs => setBlogs(initialBlogs))
@@ -102,12 +88,12 @@ function App() {
         />
       </div>
     )
-  }
+  };
 
   /* BLOG */
+
   const blogEvent = async (event) => {
     event.preventDefault();
-    console.log(newTitle);
 
     const newObject = {
       title: newTitle,
@@ -133,8 +119,70 @@ function App() {
         setErrorMessage(null)
       }, 5000)
     }
-
   };
+
+  const blogUpdateEvent = async blog => {
+    const newObject = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    };
+
+    try {
+      await blogsService.update(blog, newObject);
+      console.log("Blog update success", blog);
+    } catch (e) {
+      console.log("Error liking ", e);
+      setErrorMessage("Error liking");
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  };
+
+  const blogDeleteEvent = async (blog) => {
+    try {
+      if (window.confirm("Delete blog: " + blog.title + "?")) {
+        await blogsService.remove(blog);
+        console.log("Deleting success")
+      }
+
+    } catch (e) {
+      console.log("Error deleting blog ", e);
+      setErrorMessage("Error deleting blog");
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  };
+
+
+  const blogsSort = (a, b) => {
+    const A = a.likes;
+    const B = b.likes;
+    let comparisonNum = 0;
+
+    if (A > B) {
+      comparisonNum = 1;
+    } else if (A < B) {
+      comparisonNum = -1;
+    }
+    return comparisonNum
+  };
+
+/*  const sortedBlodData = () => {
+
+    setBlogs(blogs.sort(blogsSort).toString)
+
+    blogs.map(blog =>
+      <BlogData key={blog.id}
+                blog={blog}
+                handleUpdate={blogUpdateEvent}
+      />
+    )
+  };*/
+
 
   const blogForm = () => {
     if (blogs !== "") {
@@ -147,20 +195,19 @@ function App() {
           {createNewBlog()}
           <hr/>
 
+          {/*Sorts and shows in order of likes, yes it works*/}
+          {blogs.sort(blogsSort).toString}
           {blogs.map(blog =>
-            <BlogData key={blog.id} blog={blog}/>
+            <BlogData key={blog.id}
+                      blog={blog}
+                      user={user}
+                      handleUpdate={blogUpdateEvent}
+                      handleDelete={blogDeleteEvent}
+            />
           )}
         </div>
       )
     }
-  };
-
-  const Blog = (blog) => {
-    return (
-      <div>
-        <p>{blog.blog.title}, by {blog.blog.author}</p>
-      </div>
-    )
   };
 
   const createNewBlog = () => {
@@ -168,19 +215,14 @@ function App() {
       <div>
 
         <BlogForm
-          handleNewTitle={({ target }) => setNewTitle(target.value)}
-          handleNewAuthor={({ target }) => setNewAuthor(target.value)}
-          handleNewUrl={({ target }) => setNewUrl(target.value)}
+          handleNewTitle={({target}) => setNewTitle(target.value)}
+          handleNewAuthor={({target}) => setNewAuthor(target.value)}
+          handleNewUrl={({target}) => setNewUrl(target.value)}
           handleSubmit={blogEvent}
         />
       </div>
     )
   };
-
-
-  const addBlog = (event) => {
-    event.preventDefault();
-  }
 
   return (
     <div className="App">
