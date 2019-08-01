@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const BlogForm = ({
-                    handleSubmit,
-                    handleNewTitle,
-                    handleNewAuthor,
-                    handleNewUrl
-                  }) => {
+  handleSubmit,
+  handleNewTitle,
+  handleNewAuthor,
+  handleNewUrl
+}) => {
   const [loginVisible, setLoginVisible] = useState(false);
-
-  const hide = {display: loginVisible ? "none" : ""};
-  const show = {display: loginVisible ? '' : 'none'};
+  const hide = { display: loginVisible ? "none" : "" };
+  const show = { display: loginVisible ? "" : "none" };
 
   return (
     <>
@@ -20,22 +19,22 @@ const BlogForm = ({
         <form onSubmit={handleSubmit}>
           Title
           <input type="text"
-                 name="Title"
-                 onChange={handleNewTitle}
+            name="Title"
+            onChange={handleNewTitle}
 
 
           />
           <br/>
           Author
           <input type="text"
-                 name="Title"
-                 onChange={handleNewAuthor}
+            name="Title"
+            onChange={handleNewAuthor}
           />
           <br/>
           URL
           <input type="text"
-                 name="Title"
-                 onChange={handleNewUrl}
+            name="Title"
+            onChange={handleNewUrl}
 
           />
           <br/>
@@ -45,7 +44,7 @@ const BlogForm = ({
 
       </div>
     </>
-  )
-}
+  );
+};
 
-export default BlogForm
+export default BlogForm;

@@ -1,14 +1,13 @@
-import React from 'react'
+import React from "react";
 import PropTypes from "prop-types";
 
-
 const LoginForm = ({
-                     handleSubmit,
-                     handleUsernameChange,
-                     handlePasswordChange,
-                     username,
-                     password
-                   }) => {
+  handleSubmit,
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password
+}) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -16,22 +15,22 @@ const LoginForm = ({
           Username
           <br/>
           <input type="text"
-                 value={username}
-                 name="Username"
-                 onChange={handleUsernameChange}/>
+            value={username}
+            name="Username"
+            onChange={handleUsernameChange}/>
         </div>
         <div>
           Password
           <br/>
           <input type="text"
-                 value={password}
-                 name="password"
-                 onChange={handlePasswordChange}/>
+            value={password}
+            name="password"
+            onChange={handlePasswordChange}/>
         </div>
         <button type="submit">Login</button>
       </form>
     </>
-  )
+  );
 };
 
 LoginForm.propTypes = {
@@ -40,6 +39,6 @@ LoginForm.propTypes = {
   handlePasswordChange: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired
-}
+};
 
-export default LoginForm
+export default LoginForm;

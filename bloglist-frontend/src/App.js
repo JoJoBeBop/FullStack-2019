@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import blogsService from "./services/blogs"
-import loginService from "./services/login"
-import Notification from './components/Notification'
+import React, { useState, useEffect } from "react";
+import blogsService from "./services/blogs";
+import loginService from "./services/login";
+import Notification from "./components/Notification";
 
-import LoginForm from './components/LoginForm'
+import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
-import BlogData from "./components/Blog"
+import BlogData from "./components/Blog";
 
 function App() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
   const [blogs, setBlogs] = useState("");
@@ -24,23 +24,22 @@ function App() {
   useEffect(() => {
     blogsService
       .getAll()
-      .then(initialBlogs => setBlogs(initialBlogs))
-  }, [])
+      .then(initialBlogs => setBlogs(initialBlogs));
+  }, []);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogsService.setToken(user.token)
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogsService.setToken(user.token);
     }
   }, []);
 
   const logout = () => {
     setUser(null);
-    window.localStorage.removeItem('loggedNoteappUser')
+    window.localStorage.removeItem("loggedNoteappUser");
     window.location.reload(false);
-    console.log(user)
 
   };
 
@@ -49,12 +48,12 @@ function App() {
   const loginEvent = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginService.login({username, password});
+      const user = await loginService.login({ username, password });
       console.log(user);
 
 
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        "loggedNoteappUser", JSON.stringify(user)
       );
 
       blogsService.setToken(user.token);
@@ -62,15 +61,15 @@ function App() {
       setUser(user);
       setUsername("");
       setPassword("");
-      console.log("Logging in: ", username, password)
+      console.log("Logging in: ", username, password);
 
     } catch (e) {
 
       console.log("Error logging in ");
       setErrorMessage("Incorrect username or password");
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -81,13 +80,13 @@ function App() {
         <LoginForm
           username={username}
           password={password}
-          handleUsernameChange={({target}) => setUsername(target.value)}
-          handlePasswordChange={({target}) => setPassword(target.value)}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
           handleSubmit={loginEvent}
 
         />
       </div>
-    )
+    );
   };
 
   /* BLOG */
@@ -116,8 +115,8 @@ function App() {
       console.log("Error posting blog ", e);
       setErrorMessage("Error posting blog");
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -136,8 +135,8 @@ function App() {
       console.log("Error liking ", e);
       setErrorMessage("Error liking");
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -145,15 +144,15 @@ function App() {
     try {
       if (window.confirm("Delete blog: " + blog.title + "?")) {
         await blogsService.remove(blog);
-        console.log("Deleting success")
+        console.log("Deleting success");
       }
 
     } catch (e) {
       console.log("Error deleting blog ", e);
       setErrorMessage("Error deleting blog");
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -168,10 +167,10 @@ function App() {
     } else if (A < B) {
       comparisonNum = -1;
     }
-    return comparisonNum
+    return comparisonNum;
   };
 
-/*  const sortedBlodData = () => {
+  /*  const sortedBlodData = () => {
 
     setBlogs(blogs.sort(blogsSort).toString)
 
@@ -182,7 +181,6 @@ function App() {
       />
     )
   };*/
-
 
   const blogForm = () => {
     if (blogs !== "") {
@@ -199,14 +197,14 @@ function App() {
           {blogs.sort(blogsSort).toString}
           {blogs.map(blog =>
             <BlogData key={blog.id}
-                      blog={blog}
-                      user={user}
-                      handleUpdate={blogUpdateEvent}
-                      handleDelete={blogDeleteEvent}
+              blog={blog}
+              user={user}
+              handleUpdate={blogUpdateEvent}
+              handleDelete={blogDeleteEvent}
             />
           )}
         </div>
-      )
+      );
     }
   };
 
@@ -215,13 +213,13 @@ function App() {
       <div>
 
         <BlogForm
-          handleNewTitle={({target}) => setNewTitle(target.value)}
-          handleNewAuthor={({target}) => setNewAuthor(target.value)}
-          handleNewUrl={({target}) => setNewUrl(target.value)}
+          handleNewTitle={({ target }) => setNewTitle(target.value)}
+          handleNewAuthor={({ target }) => setNewAuthor(target.value)}
+          handleNewUrl={({ target }) => setNewUrl(target.value)}
           handleSubmit={blogEvent}
         />
       </div>
-    )
+    );
   };
 
   return (
