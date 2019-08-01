@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const Blog = ({user, blog, handleUpdate, handleDelete}) => {
   const [infoVisible, setInfoVisible]= useState(true);
@@ -42,5 +42,7 @@ const Blog = ({user, blog, handleUpdate, handleDelete}) => {
     </div>
   )
 };
+
+
 
 export default Blog
