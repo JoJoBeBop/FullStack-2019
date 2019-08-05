@@ -29,11 +29,11 @@ const Blog = ({ user, blog, handleUpdate, handleDelete }) => {
 
 
   return (
-    <div style={blogStyle} onClick={() => {showFunc(); checkUserFunc();}} >
+    <div style={blogStyle} onClick={() => {showFunc(); checkUserFunc();}} className="titleAuthor">
       <div >
         <p>{blog.title}, by {blog.author}</p>
       </div>
-      <div  style={showInfo}>
+      <div  style={showInfo} className="hiddenArea">
         <p style={{ cursor: "pointer" }}>{blog.url}</p>
         <p>{blog.likes} Likes</p><button onClick={() => handleUpdate(blog)}>Like</button>
         <p>Created by, {blog.user.username}</p>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import blogsService from "./services/blogs";
 import loginService from "./services/login";
-import Notification from "./components/Notification";
+import  { useField } from './hooks'
 
+import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import BlogData from "./components/Blog";
@@ -28,50 +29,22 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      blogsService.setToken(user.token);
+      /*blogsService.setToken(user.token);*/
     }
   }, []);
 
   const logout = () => {
     setUser(null);
-    window.localStorage.removeItem("loggedNoteappUser");
+    window.localStorage.removeItem("loggedBlogappUser");
     window.location.reload(false);
 
   };
 
   /* LOGIN */
-
-  const loginEvent = async (event) => {
-    event.preventDefault();
-    try {
-      const user = await loginService.login({ username, password });
-      console.log(user);
-
-
-      window.localStorage.setItem(
-        "loggedNoteappUser", JSON.stringify(user)
-      );
-
-      blogsService.setToken(user.token);
-
-      setUser(user);
-      setUsername("");
-      setPassword("");
-      console.log("Logging in: ", username, password);
-
-    } catch (e) {
-
-      console.log("Error logging in ");
-      setErrorMessage("Incorrect username or password");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
 
   const loginForm = () => {
     return (
@@ -80,10 +53,10 @@ function App() {
         <LoginForm
           username={username}
           password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={loginEvent}
-
+          setUsername={setUsername}
+          setPassword={setPassword}
+          setUser={setUser}
+          setErrorMessage={ setErrorMessage }
         />
       </div>
     );
@@ -197,10 +170,10 @@ function App() {
           {blogs.sort(blogsSort).toString}
           {blogs.map(blog =>
             <BlogData key={blog.id}
-              blog={blog}
-              user={user}
-              handleUpdate={blogUpdateEvent}
-              handleDelete={blogDeleteEvent}
+                      blog={blog}
+                      user={user}
+                      handleUpdate={blogUpdateEvent}
+                      handleDelete={blogDeleteEvent}
             />
           )}
         </div>
@@ -213,9 +186,9 @@ function App() {
       <div>
 
         <BlogForm
-          handleNewTitle={({ target }) => setNewTitle(target.value)}
-          handleNewAuthor={({ target }) => setNewAuthor(target.value)}
-          handleNewUrl={({ target }) => setNewUrl(target.value)}
+          handleNewTitle={({target}) => setNewTitle(target.value)}
+          handleNewAuthor={({target}) => setNewAuthor(target.value)}
+          handleNewUrl={({target}) => setNewUrl(target.value)}
           handleSubmit={blogEvent}
         />
       </div>
