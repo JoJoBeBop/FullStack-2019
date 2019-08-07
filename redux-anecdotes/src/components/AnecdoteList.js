@@ -5,11 +5,13 @@ const AnecdoteList = (props) => {
   const vote = (id) => { props.store.dispatch(voteAnecdote(id)) };
   const anecdotes = props.store.getState();
 
+  let anecdotesInVoteOrder = anecdotes.sort((acc, cum) => cum.votes.toString().localeCompare(acc.votes))
+
   return (
     <>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
+      {anecdotesInVoteOrder.map(anecdote =>
+        <div key={anecdote.id} >
           <div>
             {anecdote.content}
           </div>
