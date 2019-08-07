@@ -1,16 +1,13 @@
 import React from 'react';
 import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
-import {createAnecdote, voteAnecdote} from "./reducers/anecdoteReducer";
+import Notification from "./components/Notification";
 
 const App = (props) => {
 
-/*  const anecdotes = props.store.getState()
-
-  const vote = (id) => { props.store.dispatch(voteAnecdote(id)) }*/
-
   return (
     <div>
+      <Notification store={props.store}/>
       <AnecdoteList store={props.store}/>
       <AnecdoteForm store={props.store}/>
     </div>

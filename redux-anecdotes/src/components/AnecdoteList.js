@@ -1,9 +1,17 @@
 import React from "react";
+
 import {voteAnecdote} from "../reducers/anecdoteReducer";
+import {setNotification} from "../reducers/notificationReducer";
+import { createStore, combineReducers } from 'redux'
 
 const AnecdoteList = (props) => {
-  const vote = (id) => { props.store.dispatch(voteAnecdote(id)) };
-  const anecdotes = props.store.getState();
+  const vote = (anecdote) => {
+    props.store.dispatch(voteAnecdote(anecdote.id));
+    props.store.dispatch(setNotification({message: `Comment: "${anecdote.content}", liked`}))
+  };
+
+  const anecdotes = props.store.getState().anecdotes;
+  console.log(anecdotes);
 
   let anecdotesInVoteOrder = anecdotes.sort((acc, cum) => cum.votes.toString().localeCompare(acc.votes))
 
@@ -18,7 +26,7 @@ const AnecdoteList = (props) => {
           <div>
             Votes: {anecdote.votes}
             <br/>
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
             <hr/>
           </div>
         </div>
