@@ -7,12 +7,6 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ];
 
-const aa = [
-  {content: "Adding manpower to a late software project makes it later!", id: "86134", votes: 0},
-   {content: "Any fool can write code that a computer can unders…rogrammers write code that humans can understand.", id: "22484", votes: 0},
- {content: "Debugging is twice as hard as writing the code in …are, by definition, not smart enough to debug it.", id: "8937", votes: 0}
-];
-
 const getId = () => (100000 * Math.random()).toFixed(0);
 
 const asObject = (anecdote) => {
