@@ -1,13 +1,15 @@
 import React from "react";
 
 import {voteAnecdote} from "../reducers/anecdoteReducer";
-import {setNotification} from "../reducers/notificationReducer";
+import {setNotification, emptyNotification} from "../reducers/notificationReducer";
 import { createStore, combineReducers } from 'redux'
 
 const AnecdoteList = (props) => {
   const vote = (anecdote) => {
     props.store.dispatch(voteAnecdote(anecdote.id));
     props.store.dispatch(setNotification({message: `Comment: "${anecdote.content}", liked`}))
+    setTimeout(() => {
+      props.store.dispatch(emptyNotification()) }, 5000)
   };
 
   const anecdotes = props.store.getState().anecdotes;
