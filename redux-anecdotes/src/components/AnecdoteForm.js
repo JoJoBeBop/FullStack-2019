@@ -1,11 +1,13 @@
 import React from "react";
+
 import {createAnecdote} from "../reducers/anecdoteReducer";
 import {connect} from "react-redux";
+import anecdoteService from "../services/anecdotes";
 
 
 const AnecdoteForm = (props) => {
 
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
@@ -32,11 +34,8 @@ const mapStateToProps = (state) => {
 
 const mapsDispatchToProps = {
   createAnecdote
-}
+};
 
 const ConnectedAnecdoteForm = connect(mapStateToProps, mapsDispatchToProps)(AnecdoteForm);
 export default ConnectedAnecdoteForm
 
-
-/*
-export default AnecdoteForm;*/

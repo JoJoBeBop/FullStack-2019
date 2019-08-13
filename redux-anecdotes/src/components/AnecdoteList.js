@@ -6,18 +6,16 @@ import {emptyNotification} from "../reducers/notificationReducer";
 import {setNotification} from "../reducers/notificationReducer";
 
 const AnecdoteList = (props) => {
-  console.log(props);
   const vote = (anecdote) => {
-    props.voteAnecdote(anecdote.id);
-    props.setNotification({message: `Comment: "${anecdote.content}", liked`})
-    setTimeout(() => {
+    props.voteAnecdote(anecdote);
+    props.setNotification({message: `Comment: "${anecdote.content}", liked`}, 2)
+/*    setTimeout(() => {
       props.emptyNotification()
-    }, 5000)
+    }, 5000)*/
   };
 
   return props.anecdotes.map(anecdote => (
     <div key={anecdote.id}>
-      <h2>Anecdotes</h2>
       <div>
         {anecdote.content}
       </div>
@@ -44,7 +42,6 @@ const voteOrder = (value) => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     anecdotes: shownAnecdotes(state),
     filter: state.filter

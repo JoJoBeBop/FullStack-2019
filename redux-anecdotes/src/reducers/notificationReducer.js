@@ -1,3 +1,5 @@
+import anecdoteService from "../services/anecdotes";
+
 const initialState = {};
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -13,12 +15,19 @@ const notificationReducer = (state = initialState, action) => {
   }
 };
 
-export const setNotification = (data) => {
-  console.log(data);
-  return {
-    type: "SET_NOTIFICATION",
-    data
-  }
+export const setNotification = (data, timeout) => {
+  return async dispatch => {
+    dispatch({
+      type: "SET_NOTIFICATION",
+      data
+    });
+
+    setTimeout(() => {
+      dispatch({
+        type: "EMPTY_NOTIFICATION",
+      });
+    }, timeout * 1000);
+  };
 };
 
 export const emptyNotification = () => {
