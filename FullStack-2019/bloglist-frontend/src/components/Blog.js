@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { connect } from 'react-redux'
 
-const Blog = ({ user, blog, handleUpdate, handleDelete }) => {
+
+import {setNotification} from "../reducers/notificationReducer";
+
+
+const Blog = ({ user, blog, handleUpdate, handleDelete, setNotification }) => {
   const [infoVisible, setInfoVisible]= useState(true);
   const [deleteVisible, setDeleteVisible]= useState(true);
 
@@ -11,6 +16,7 @@ const Blog = ({ user, blog, handleUpdate, handleDelete }) => {
     padding: 10,
     marginBottom: 10
   };
+
 
 
   const showInfo = { display: infoVisible ? "none" : "" };
@@ -44,6 +50,15 @@ const Blog = ({ user, blog, handleUpdate, handleDelete }) => {
   );
 };
 
+const mapDispatchToProps = {
+  setNotification,
+};
 
 
-export default Blog;
+export default connect(
+  null,
+  mapDispatchToProps
+)(Blog);
+
+/*
+export default Blog;*/

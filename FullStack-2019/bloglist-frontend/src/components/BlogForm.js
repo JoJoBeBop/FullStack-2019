@@ -8,14 +8,16 @@ const BlogForm = ({
 }) => {
   const [loginVisible, setLoginVisible] = useState(false);
   const hide = { display: loginVisible ? "none" : "" };
+/*
   const show = { display: loginVisible ? "" : "none" };
+*/
 
   return (
     <>
       <div style={hide}>
         <button onClick={() => setLoginVisible(true)}>New Note</button>
       </div>
-      <div style={show}>
+      <div >
         <form onSubmit={handleSubmit}>
           Title
           <input type="text"

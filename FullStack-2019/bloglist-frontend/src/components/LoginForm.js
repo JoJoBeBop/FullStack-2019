@@ -1,18 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {useField} from "../hooks/index"
-import loginService from "../services/login";
-import blogsService from "../services/blogs";
+
+import {setNotification} from "../reducers/notificationReducer";
+import {loginUser, logoutUser} from "../reducers/userReducer";
+
+
+import {connect} from "react-redux";
+
 
 const LoginForm = ({
-  username,
-  password,
-  setUsername,
-  setPassword,
-  setUser,
-  setErrorMessage
+                     username,
+                     password,
+                     setUsername,
+                     setPassword,
+                     setNotification,
+                     user,
+                     loginUser,
+                     logoutUser
 
-}) => {
+                   }) => {
   const usernameHook = useField('text');
   const passwordHook = useField('text');
   const usernameInput = Object.assign({}, usernameHook);
@@ -21,7 +27,6 @@ const LoginForm = ({
   delete usernameInput.resetInput;
   delete passwordInput.resetInput;
 
-  /*Couldn't make loginEvent in App.js work*/
   const loginEvent = async (event) => {
     event.preventDefault();
 
@@ -29,27 +34,34 @@ const LoginForm = ({
     const password = passwordHook.value;
 
     try {
-      const user = await loginService.login({username, password});
-      window.localStorage.setItem(
-        "loggedBlogappUser", JSON.stringify(user)
-      );
-
-      blogsService.setToken(user.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
-      usernameHook.resetInput();
-      passwordHook.resetInput();
-
-      console.log("Logging in: ", username, password);
+      await loginUser({
+        username,
+        password,
+      });
     } catch (e) {
-      console.log("Error logging in ");
-      setErrorMessage("Incorrect username or password");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      setNotification({message: `Incorrect username or password`}, 2);
+      console.log(e);
     }
+  }
+
+
+  const logout = () => {
+    console.log(user);
+
+    logoutUser()
   };
+
+  if (user !== null){
+    return (
+      <div>
+        <h2>Logged in as {user.username}</h2>
+        <button onClick={logout}>Logout</button>
+        <hr/>
+      </div>
+    );
+  }
+
+
 
   return (
     <>
@@ -70,14 +82,22 @@ const LoginForm = ({
   );
 };
 
-LoginForm.propTypes = {
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired,
-  setErrorMessage: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  setNotification,
+  loginUser,
+  logoutUser,
 };
 
 
-export default LoginForm;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginForm);
+
