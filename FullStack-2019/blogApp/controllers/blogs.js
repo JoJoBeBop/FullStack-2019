@@ -53,6 +53,7 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 });
 
+
 blogsRouter.delete("/:id", async (request, response, next) => {
   const blog = await Blog.findById(request.params.id);
 
@@ -78,6 +79,21 @@ blogsRouter.delete("/:id", async (request, response, next) => {
   }
 });
 
+
+blogsRouter.post("/:id", async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id);
+
+  blog.comments = [...blog.comments, {comment: request.body.comment}];
+
+  try {
+    const newBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true});
+    response.json(newBlog.toJSON());
+  } catch (exception) {
+    next(exception)
+  }
+
+});
+
 blogsRouter.put("/:id", async (request, response, next) => {
   const blogBody = request.body;
 
@@ -85,7 +101,8 @@ blogsRouter.put("/:id", async (request, response, next) => {
     title: blogBody.title,
     author: blogBody.author,
     url: blogBody.url,
-    likes: blogBody.likes
+    likes: blogBody.likes,
+    comments: [...blogBody.comments + request.body.comment]
   };
 
   try {
