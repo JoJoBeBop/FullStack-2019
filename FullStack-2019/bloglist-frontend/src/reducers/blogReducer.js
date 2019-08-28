@@ -17,17 +17,7 @@ const blogReducer = (state = [], action) => {
         likes: blogToVote.likes + 1
       };
       console.log();
-      return (state.map(blog => blog.id !== id ? blog  : voteBlog
-
-/*        return (state.map(blog => {
-        if (blog.id !== id) {
-          console.log("BLOG", blog);
-          return blog
-        } else {
-          console.log("VOTE", voteBlog);
-          return voteBlog
-        }
-        /!*blog.id !== id ? blog  : voteBlog*!/}*/ ))
+      return (state.map(blog => blog.id !== id ? blog  : voteBlog));
 
     case "UPDATE_BLOG":
       return state.map(blog => blog.id === action.data.id ? action.data : blog
@@ -37,15 +27,30 @@ const blogReducer = (state = [], action) => {
       console.log(action.data);
       return state.filter(blog => blog.id !== action.data);
 
+    case "NEW_COMMENT":
+      return state;
+
     default:
       return state;
   }
 
 };
 
+export const commentBlog = (content, id) => {
+  return async dispatch => {
+    const newComment = await blogService.update(content, id);
+    dispatch({
+      type: "NEW_COMMENT",
+      data: newComment
+    })
+  }
+};
+
 export const createBlog = (content) => {
   return async dispatch => {
+    console.log(content);
     const newBlog = await blogService.create(content);
+    console.log(newBlog);
     dispatch ({
       type: "NEW_BLOG",
       data: newBlog
@@ -69,13 +74,33 @@ export const blogUpdate = (blog) => {
     title: blog.title,
     author: blog.author,
     url: blog.url,
-    likes: blog.likes + 1
+    likes: blog.likes + 1,
+    comments: blog.comments
   };
 
   return async dispatch => {
     const newUpdate = await blogService.update(blog, newObject);
     dispatch({
       type: "UPDATE_BLOG",
+      data: newUpdate
+    })
+  }
+};
+
+
+export const blogComment = (blog) => {
+  const newObject = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes,
+    comments: blog.comments
+  };
+
+  return async dispatch => {
+    const newUpdate = await blogService.update(blog, newObject);
+    dispatch({
+      type: "COMMENT_BLOG",
       data: newUpdate
     })
   }

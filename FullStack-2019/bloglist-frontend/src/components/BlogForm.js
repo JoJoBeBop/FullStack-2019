@@ -1,48 +1,66 @@
 import React, { useState } from "react";
+import {useField} from "../hooks/index"
+import {createBlog} from "../reducers/blogReducer";
+import {connect} from "react-redux";
+import {setNotification} from "../reducers/notificationReducer";
 
-const BlogForm = ({
-  handleSubmit,
-  handleNewTitle,
-  handleNewAuthor,
-  handleNewUrl
-}) => {
-  const [loginVisible, setLoginVisible] = useState(false);
-  const hide = { display: loginVisible ? "none" : "" };
-/*
-  const show = { display: loginVisible ? "" : "none" };
-*/
+
+
+
+
+const BlogForm = () => {
+
+  const titleHook = useField('text');
+  const authorHook = useField('text');
+  const urlHook = useField('text');
+
+  const titleInput = Object.assign({}, titleHook);
+  const authorInput = Object.assign({}, authorHook);
+  const urlInput = Object.assign({}, urlHook);
+
+  delete titleInput.resetInput;
+  delete authorInput.resetInput;
+  delete urlInput.resetInput;
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const title = titleHook.value;
+    const author = authorHook.value;
+    const url = urlHook.value;
+
+
+    try {
+      await createBlog({
+        title,
+        author,
+        url
+      });
+    } catch (e) {
+      setNotification({message: `Error with creating blog`}, 2);
+      console.log(e);
+    }
+  };
 
   return (
     <>
-      <div style={hide}>
-        <button onClick={() => setLoginVisible(true)}>New Note</button>
-      </div>
+
       <div >
         <form onSubmit={handleSubmit}>
           Title
-          <input type="text"
-            name="Title"
-            onChange={handleNewTitle}
+          <input {...titleHook}/>
 
-
-          />
           <br/>
           Author
-          <input type="text"
-            name="Title"
-            onChange={handleNewAuthor}
-          />
+          <input {...authorHook}/>
           <br/>
           URL
-          <input type="text"
-            name="Title"
-            onChange={handleNewUrl}
+          <input {...urlHook}/>
 
-          />
           <br/>
           <button type="submit">Create</button>
         </form>
-        <button onClick={() => setLoginVisible(false)}>cancel</button>
 
       </div>
     </>

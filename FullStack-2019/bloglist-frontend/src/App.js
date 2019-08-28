@@ -8,10 +8,12 @@ import BlogList from "./components/BlogsList";
 import UserList from "./components/UserList";
 import UserSingle from "./components/UserSingle";
 import Menu from "./components/Menu";
+import BlogSingle from "./components/BlogSingle"
 
 import {initializeBlogs} from "./reducers/blogReducer";
 import {initializeUser} from "./reducers/userReducer";
 import {setNotification} from "./reducers/notificationReducer";
+import BlogForm from "./components/BlogForm";
 
 const App = ({blogs, user, initializeBlogs, initializeUser}) => {
 
@@ -38,8 +40,16 @@ const App = ({blogs, user, initializeBlogs, initializeUser}) => {
           </div>
         }/>
 
+        <Route exact path="/blogs/:id" render={({match}) =>
+          <BlogSingle  blogId={match.params.id}/>
+        }/>
+
         <Route exact path="/users" render={() =>
           <UserList/>
+        }/>
+
+        <Route exact path="/createNew" render={() =>
+          <BlogForm/>
         }/>
 
         <Route exact path="/users/:id" render={({match}) =>
