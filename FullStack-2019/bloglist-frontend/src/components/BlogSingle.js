@@ -24,7 +24,7 @@ const BlogSingle = ({blog, blogUpdate, blogDelete}) => {
         <button onClick={() => vote(blog)}>Like</button>
         <button onClick={() => deleteBlog(blog)}>Delete</button>
         <p>Added by {blog.user.username}</p>
-        <CommentFrom/>
+        <CommentFrom blog={blog}/>
       </div>
     )
   }

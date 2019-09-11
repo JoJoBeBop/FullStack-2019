@@ -6,7 +6,6 @@ const initialState = {};
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_NOTIFICATION":
-      console.log("DIXK");
       return {
         message: action.data.message,
         type: action.data.type,

@@ -1,12 +1,10 @@
 import React from "react";
 import {useField} from "../hooks/index"
+import {connect} from "react-redux";
+import { Form, Button } from 'semantic-ui-react'
 
 import {setNotification} from "../reducers/notificationReducer";
 import {loginUser, logoutUser} from "../reducers/userReducer";
-
-
-import {connect} from "react-redux";
-
 
 const LoginForm = ({
                      username,
@@ -38,11 +36,13 @@ const LoginForm = ({
         username,
         password,
       });
+
+      setNotification({message: `Welcome, ${username}!`}, 2)
     } catch (e) {
-      setNotification({message: `Incorrect username or password`}, 2);
+      setNotification({message: `Incorrect username or password`}, 12);
       console.log(e);
     }
-  }
+  };
 
 
   const logout = () => {
@@ -57,6 +57,10 @@ const LoginForm = ({
         <h2>Logged in as {user.username}</h2>
         <button onClick={logout}>Logout</button>
         <hr/>
+
+{/*        <Message success>
+          {message}
+        </Message>*/}
       </div>
     );
   }
@@ -64,21 +68,17 @@ const LoginForm = ({
 
 
   return (
-    <>
-      <form onSubmit={loginEvent}>
-        <div>
-          Username
-          <br/>
-          <input {...usernameInput}/>
-        </div>
-        <div>
-          Password
-          <br/>
-          <input {...passwordInput}/>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </>
+      <Form onSubmit={loginEvent}>
+        <Form.Field>
+          <label>Username</label>
+          <input {...usernameInput} />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <input {...passwordInput} />
+        </Form.Field>
+        <Button type='submit'>Login</Button>
+      </Form>
   );
 };
 

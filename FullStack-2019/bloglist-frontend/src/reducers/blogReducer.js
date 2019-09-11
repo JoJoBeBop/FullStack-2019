@@ -28,7 +28,9 @@ const blogReducer = (state = [], action) => {
       return state.filter(blog => blog.id !== action.data);
 
     case "NEW_COMMENT":
-      return state;
+      console.log(action.data);
+
+      return null;
 
     default:
       return state;
@@ -36,9 +38,12 @@ const blogReducer = (state = [], action) => {
 
 };
 
-export const commentBlog = (content, id) => {
+export const commentBlog = (content) => {
+  console.log(content.blog.id);
+  const blogId = content.blog.id;
+
   return async dispatch => {
-    const newComment = await blogService.update(content, id);
+    const newComment = await blogService.comment(content, blogId);
     dispatch({
       type: "NEW_COMMENT",
       data: newComment
@@ -46,10 +51,13 @@ export const commentBlog = (content, id) => {
   }
 };
 
-export const createBlog = (content) => {
+export const createBlog = (content, token) => {
+/*  console.log(content);
+  console.log(token);*/
+
   return async dispatch => {
     console.log(content);
-    const newBlog = await blogService.create(content);
+    let newBlog = await blogService.create(content, token);
     console.log(newBlog);
     dispatch ({
       type: "NEW_BLOG",

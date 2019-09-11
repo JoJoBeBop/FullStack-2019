@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import {connect} from 'react-redux'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
+
 
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
@@ -28,36 +30,39 @@ const App = ({blogs, user, initializeBlogs, initializeUser}) => {
   }, [initializeBlogs]);
 
   return (
-    <Router>
-      <div className="App">
-        <Menu/>
-        <Notification/>
-        <LoginForm/>
+    <Container>
+      <Router>
+        <div className="App">
+          <Menu/>
+          <Notification/>
+          <LoginForm/>
 
-        <Route exact path="/" render={() =>
-          <div>
-            <BlogList/>
-          </div>
-        }/>
+          <Route exact path="/" render={() =>
+            <div>
+              <BlogList/>
+            </div>
+          }/>
 
-        <Route exact path="/blogs/:id" render={({match}) =>
-          <BlogSingle  blogId={match.params.id}/>
-        }/>
+          <Route exact path="/blogs/:id" render={({match}) =>
+            <BlogSingle  blogId={match.params.id}/>
+          }/>
 
-        <Route exact path="/users" render={() =>
-          <UserList/>
-        }/>
+          <Route exact path="/users" render={() =>
+            <UserList/>
+          }/>
 
-        <Route exact path="/createNew" render={() =>
-          <BlogForm/>
-        }/>
+          <Route exact path="/createNew" render={() =>
+            <BlogForm/>
+          }/>
 
-        <Route exact path="/users/:id" render={({match}) =>
-          <UserSingle userId={match.params.id} />
-        }/>
+          <Route exact path="/users/:id" render={({match}) =>
+            <UserSingle userId={match.params.id} />
+          }/>
 
-      </div>
-    </Router>
+        </div>
+      </Router>
+    </Container>
+
 
   );
 };

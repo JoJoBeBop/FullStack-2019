@@ -1,9 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import "../index.css";
+import {Message} from 'semantic-ui-react'
+
 
 const Test = ({notification}) => {
-  return notification.message ? <div className="error">{notification.message}</div> : <div></div>;
+  return (notification.message ?
+    <Message color="blue">
+      {notification.message}
+    </Message>
+    : <div></div>);
+
 };
 
 const mapStateToProps = state => {

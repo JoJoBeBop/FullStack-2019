@@ -2,31 +2,32 @@ import React from 'react';
 import {connect} from 'react-redux';
 import "../index.css";
 import { Link } from 'react-router-dom';
+import { Table } from 'semantic-ui-react'
 
-const BlogsList = ({blogs, logout, createNewBlog, user }) => {
 
-  const blogStyle = {
-    borderStyle: "solid",
-    borderRadius: 0.5,
-    padding: 10,
-    marginBottom: 10
-  };
+const BlogsList = ({blogs}) => {
 
-  if (user !== null) {
-    return blogs.map(blog => (
 
-      <div style={blogStyle} className="titleAuthor" key={blog.id}>
-        <div>
-          <Link to={`blogs/${blog.id}`}>{blog.title}, by {blog.author}</Link>
-        </div>
-      </div>
-    ))
-  } else {
-    return (
-      <div>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h2>Blogs</h2>
+      <Table striped celled>
+        <Table.Body>
+          {blogs.map(blog =>
+            <Table.Row key={blog.id}>
+              <Table.Cell>
+                <Link to={`blogs/${blog.id}`}>{blog.title}, by {blog.author}</Link>
+
+              </Table.Cell>
+              <Table.Cell>
+                {blog.user.username}
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+    </div>
+  )
 
 };
 

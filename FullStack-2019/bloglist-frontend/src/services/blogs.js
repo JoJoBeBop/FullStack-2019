@@ -7,6 +7,14 @@ console.log(token.token);*/
 
 let token = null;
 
+const headers = token => {
+  return {
+    headers: {
+      Authorization: `bearer ${token}`,
+    },
+  };
+};
+
 const setToken = newToken => {
   token = `bearer ${newToken}`;
 };
@@ -16,13 +24,19 @@ const getAll = async () => {
   return response.data
 };
 
-const create = async newObject => {
+const create = async (content, token) => {
   console.log("CREATE");
+  const toke = content.token;
+
   const config = {
-    headers: { Authorization: token },
+    headers: { Authorization: `bearer ${toke}` },
   };
 
-  console.log(config);
+  const newObject = {
+    title: content.title,
+    author: content.author,
+    url: content.url
+  };
 
   const response = await axios.post(baseUrl, newObject, config);
   console.log(response);
@@ -34,6 +48,8 @@ const update = ( blog, newObject) => {
   const config = {
     headers: { Authorization: token },
   };
+
+  console.log(config);
 
   const request = axios.put(`${baseUrl}/${blog.id}`, newObject, config);
   return request.then(response => response.data);
@@ -53,6 +69,16 @@ const remove = (blog) => {
   console.log(config);
   const request = axios.delete(`${baseUrl}/${blog.id}`, config);
   return request.then(response => response.data);
+};
+
+const comment = async (blogId, blogComment, token) => {
+  const response = await axios.post(
+    `${baseUrl}/${blogId}`,
+    { blogComment },
+    headers(token)
+  );
+
+  return response.data;
 };
 
 export default { getAll, create, update, setToken, remove, newVote };
