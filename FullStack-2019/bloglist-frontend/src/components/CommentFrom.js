@@ -26,11 +26,11 @@ const CommentForm = ({blog, commentBlog}) => {
 
   return (
     <div>
-      <form onSubmit={comment}>
+      <form onSubmit={comment} class="ui input">
 
-        <input {...commentHook}/>
+        <input {...commentHook} />
 
-        <button type="submit">Comment</button>
+        <button class="ui button" type="submit">Comment</button>
 
       </form>
     </div>

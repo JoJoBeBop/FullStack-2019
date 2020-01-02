@@ -6,10 +6,10 @@ const Menu = () => {
   const padding = { padding: 5 };
 
   return (
-    <div>
+    <div className="MenuDiv">
       <Link style={padding} to="/">Home</Link>
       <Link style={padding} to="/users">Users</Link>
-      <Link style={padding} to="/createNew">Create New</Link>
+      <Link style={padding} to="/createNew">New Post</Link>
       <hr/>
     </div>
   )

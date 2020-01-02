@@ -55,7 +55,7 @@ const LoginForm = ({
     return (
       <div>
         <h2>Logged in as {user.username}</h2>
-        <button onClick={logout}>Logout</button>
+        <button class="ui button" onClick={logout}>Logout</button>
         <hr/>
 
 {/*        <Message success>
@@ -68,7 +68,7 @@ const LoginForm = ({
 
 
   return (
-      <Form onSubmit={loginEvent}>
+      <Form onSubmit={loginEvent} class="ui input">
         <Form.Field>
           <label>Username</label>
           <input {...usernameInput} />
@@ -77,7 +77,8 @@ const LoginForm = ({
           <label>Password</label>
           <input {...passwordInput} />
         </Form.Field>
-        <Button type='submit'>Login</Button>
+        <button class="ui button" type='submit'>Login</button>
+        <hr/>
       </Form>
   );
 };

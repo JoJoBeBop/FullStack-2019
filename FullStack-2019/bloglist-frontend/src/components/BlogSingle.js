@@ -21,8 +21,8 @@ const BlogSingle = ({blog, blogUpdate, blogDelete}) => {
         <h3>{blog.title}</h3>
         <p>{blog.url}</p>
         <p>{blog.likes} likes</p>
-        <button onClick={() => vote(blog)}>Like</button>
-        <button onClick={() => deleteBlog(blog)}>Delete</button>
+        <button class="ui button" onClick={() => vote(blog)}>Like</button>
+        <button class="ui button" onClick={() => deleteBlog(blog)}>Delete</button>
         <p>Added by {blog.user.username}</p>
         <CommentFrom blog={blog}/>
       </div>

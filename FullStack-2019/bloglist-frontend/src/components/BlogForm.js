@@ -44,19 +44,19 @@ const BlogForm = ({createBlog, user}) => {
     <>
 
       <div >
-        <form onSubmit={handleSubmit}>
-          Title
-          <input {...titleHook}/>
+        <h3>
+          Create a new post!
+        </h3>
+        <form onSubmit={handleSubmit} class="ui input" id="PostForm">
+          <input {...titleHook} placeholder="Title..."/>
 
           <br/>
-          Author
-          <input {...authorHook}/>
+          <input {...authorHook} placeholder="Author..."/>
           <br/>
-          URL
-          <input {...urlHook}/>
+          <input {...urlHook} placeholder="URL..."/>
 
           <br/>
-          <button type="submit">Create</button>
+          <button type="submit" class="ui button">Create</button>
         </form>
 
       </div>

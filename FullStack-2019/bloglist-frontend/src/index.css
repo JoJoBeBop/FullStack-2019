@@ -1,5 +1,11 @@
+body {
+     background: rgb(34,193,195);
+     background: linear-gradient(349deg, rgba(34,193,195,1) 0%, rgba(255,213,123,1) 100%);
+    color: #0aab81;
+ }
+
 p {
-    color: black;
+    color: #024030;
     font-style: italic;
 }
 
@@ -11,3 +17,22 @@ p {
     padding: 10px;
     margin-bottom: 10px;
 }
+
+.MenuDiv  {
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+}
+
+h1 h2 h3 {
+    color: #4e8fb7;
+}
+
+button {
+    padding: 5px;
+}
+
+#PostForm {
+    display: block !important;
+}
+
