@@ -1,19 +1,19 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {blogDelete, blogUpdate} from "../reducers/blogReducer";
-import CommentFrom from "../components/CommentFrom"
+import React from 'react'
+import { connect } from 'react-redux'
+import { blogDelete, blogUpdate } from '../reducers/blogReducer'
+import CommentFrom from '../components/CommentFrom'
 
 
 
-const BlogSingle = ({blog, blogUpdate, blogDelete}) => {
+const BlogSingle = ({ blog, blogUpdate, blogDelete }) => {
 
   const vote = (blog) => {
     blogUpdate(blog)
-  };
+  }
 
   const deleteBlog = (blog) => {
     blogDelete(blog)
-  };
+  }
 
   if (blog !== undefined) {
     return(
@@ -21,8 +21,8 @@ const BlogSingle = ({blog, blogUpdate, blogDelete}) => {
         <h3>{blog.title}</h3>
         <p>{blog.url}</p>
         <p>{blog.likes} likes</p>
-        <button class="ui button" onClick={() => vote(blog)}>Like</button>
-        <button class="ui button" onClick={() => deleteBlog(blog)}>Delete</button>
+        <button className="ui button" onClick={() => vote(blog)}>Like</button>
+        <button className="ui button" onClick={() => deleteBlog(blog)}>Delete</button>
         <p>Added by {blog.user.username}</p>
         <CommentFrom blog={blog}/>
       </div>
@@ -32,25 +32,25 @@ const BlogSingle = ({blog, blogUpdate, blogDelete}) => {
   return (
     <div>
     </div>
-  );
-};
+  )
+}
 
 const blogsToShow = (blogs, id) => {
-  return blogs.find(blog => blog.id === id);
+  return blogs.find(blog => blog.id === id)
 
-};
+}
 
 const mapStateToProps = (state, blogId) => {
   return {
     blog: blogsToShow(state.blogs, blogId.blogId)
   }
 
-};
+}
 
 const mapDispatchToProps = {
   blogUpdate,
   blogDelete
-};
+}
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogSingle);
+export default connect(mapStateToProps, mapDispatchToProps)(BlogSingle)

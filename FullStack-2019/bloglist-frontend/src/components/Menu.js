@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const Menu = () => {
-  const padding = { padding: 5 };
+  const padding = { padding: 5 }
 
   return (
     <div className="MenuDiv">
@@ -14,6 +14,6 @@ const Menu = () => {
     </div>
   )
 
-};
+}
 
 export default Menu

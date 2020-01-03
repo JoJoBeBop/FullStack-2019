@@ -1,33 +1,33 @@
-import React, {useEffect} from "react";
-import {connect} from 'react-redux'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 
 
-import Notification from "./components/Notification";
-import LoginForm from "./components/LoginForm";
-import BlogList from "./components/BlogsList";
-import UserList from "./components/UserList";
-import UserSingle from "./components/UserSingle";
-import Menu from "./components/Menu";
-import BlogSingle from "./components/BlogSingle"
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import BlogList from './components/BlogsList'
+import UserList from './components/UserList'
+import UserSingle from './components/UserSingle'
+import Menu from './components/Menu'
+import BlogSingle from './components/BlogSingle'
 
-import {initializeBlogs} from "./reducers/blogReducer";
-import {initializeUser} from "./reducers/userReducer";
-import {setNotification} from "./reducers/notificationReducer";
-import BlogForm from "./components/BlogForm";
+import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUser } from './reducers/userReducer'
+import { setNotification } from './reducers/notificationReducer'
+import BlogForm from './components/BlogForm'
 
-const App = ({blogs, user, initializeBlogs, initializeUser}) => {
+const App = ({ blogs, user, initializeBlogs, initializeUser }) => {
 
 
   useEffect(() => {
-    initializeUser();
+    initializeUser()
   }, [initializeUser])
 
 
   useEffect(() => {
     initializeBlogs()
-  }, [initializeBlogs]);
+  }, [initializeBlogs])
 
   return (
     <Container>
@@ -43,7 +43,7 @@ const App = ({blogs, user, initializeBlogs, initializeUser}) => {
             </div>
           }/>
 
-          <Route exact path="/blogs/:id" render={({match}) =>
+          <Route exact path="/blogs/:id" render={({ match }) =>
             <BlogSingle  blogId={match.params.id}/>
           }/>
 
@@ -55,7 +55,7 @@ const App = ({blogs, user, initializeBlogs, initializeUser}) => {
             <BlogForm/>
           }/>
 
-          <Route exact path="/users/:id" render={({match}) =>
+          <Route exact path="/users/:id" render={({ match }) =>
             <UserSingle userId={match.params.id} />
           }/>
 
@@ -64,24 +64,24 @@ const App = ({blogs, user, initializeBlogs, initializeUser}) => {
     </Container>
 
 
-  );
-};
+  )
+}
 
 const mapStateToProps = state => {
   return {
     blogs: state.blogs,
     user: state.user
   }
-};
+}
 
 const mapDispatchToProps = {
   setNotification,
   initializeBlogs,
   initializeUser
-};
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(App)
 

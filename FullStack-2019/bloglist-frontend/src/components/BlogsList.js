@@ -1,11 +1,11 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import "../index.css";
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { connect } from 'react-redux'
+import '../index.css'
+import { Link } from 'react-router-dom'
 import { Table } from 'semantic-ui-react'
 
 
-const BlogsList = ({blogs}) => {
+const BlogsList = ({ blogs }) => {
 
 
   return (
@@ -29,7 +29,7 @@ const BlogsList = ({blogs}) => {
     </div>
   )
 
-};
+}
 
 
 const mapStateToProps = state => {
@@ -37,11 +37,11 @@ const mapStateToProps = state => {
     notification: state.notification,
     blogs: state.blogs,
     user: state.user
-  };
-};
+  }
+}
 
 
 const ConnectedBlogsList = connect(
-  mapStateToProps, null)(BlogsList);
+  mapStateToProps, null)(BlogsList)
 
-export default ConnectedBlogsList;
+export default ConnectedBlogsList

@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import {useField} from "../hooks/index"
-import {connect} from "react-redux";
+import React, { useState } from 'react'
+import { useField } from '../hooks/index'
+import { connect } from 'react-redux'
 
-import {createBlog} from "../reducers/blogReducer";
-import {setNotification} from "../reducers/notificationReducer";
-import {loginUser, logoutUser} from "../reducers/userReducer";
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { loginUser, logoutUser } from '../reducers/userReducer'
 
-const BlogForm = ({createBlog, user}) => {
+const BlogForm = ({ createBlog, user }) => {
 
-  const titleHook = useField('text');
-  const authorHook = useField('text');
-  const urlHook = useField('text');
+  const titleHook = useField('text')
+  const authorHook = useField('text')
+  const urlHook = useField('text')
 
-  const titleInput = Object.assign({}, titleHook);
-  const authorInput = Object.assign({}, authorHook);
-  const urlInput = Object.assign({}, urlHook);
+  const titleInput = Object.assign({}, titleHook)
+  const authorInput = Object.assign({}, authorHook)
+  const urlInput = Object.assign({}, urlHook)
 
-  delete titleInput.resetInput;
-  delete authorInput.resetInput;
-  delete urlInput.resetInput;
+  delete titleInput.resetInput
+  delete authorInput.resetInput
+  delete urlInput.resetInput
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const title = titleHook.value;
-    const author = authorHook.value;
-    const url = urlHook.value;
+    event.preventDefault()
+    const title = titleHook.value
+    const author = authorHook.value
+    const url = urlHook.value
     const token = user.token
     try {
       await createBlog({
@@ -33,12 +33,12 @@ const BlogForm = ({createBlog, user}) => {
         author,
         url,
         token
-      });
+      })
     } catch (e) {
-      setNotification({message: `Error with creating blog`}, 2);
-      console.log(e);
+      setNotification({ message: 'Error with creating blog' }, 2)
+      console.log(e)
     }
-  };
+  }
 
   return (
     <>
@@ -47,7 +47,7 @@ const BlogForm = ({createBlog, user}) => {
         <h3>
           Create a new post!
         </h3>
-        <form onSubmit={handleSubmit} class="ui input" id="PostForm">
+        <form onSubmit={handleSubmit} className="ui input" id="PostForm">
           <input {...titleHook} placeholder="Title..."/>
 
           <br/>
@@ -56,30 +56,30 @@ const BlogForm = ({createBlog, user}) => {
           <input {...urlHook} placeholder="URL..."/>
 
           <br/>
-          <button type="submit" class="ui button">Create</button>
+          <button type="submit" className="ui button">Create</button>
         </form>
 
       </div>
     </>
-  );
-};
+  )
+}
 
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-  };
-};
+  }
+}
 
 const mapDispatchToProps = {
   createBlog,
-};
+}
 
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BlogForm);
+)(BlogForm)
 
 /*
 export default BlogForm;*/

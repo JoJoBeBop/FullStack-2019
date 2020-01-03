@@ -1,7 +1,7 @@
 import React from 'react'
-import {render, waitForElement} from '@testing-library/react'
+import { render, waitForElement } from '@testing-library/react'
 
-jest.mock('./services/blogs');
+jest.mock('./services/blogs')
 import App from './App'
 
 describe('<App />', () => {
@@ -32,20 +32,20 @@ describe('<App />', () => {
       username: 'tester',
       token: '1231231214',
       name: 'Donald Tester',
-    };
+    }
 
-    localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
+    localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
-    const component = render(<App/>);
-    component.rerender(<App/>);
+    const component = render(<App/>)
+    component.rerender(<App/>)
 
-    await waitForElement(() => component.container.querySelector(".titleAuthor"));
+    await waitForElement(() => component.container.querySelector('.titleAuthor'))
 
-    const blogs = component.container.querySelectorAll('.titleAuthor');
+    const blogs = component.container.querySelectorAll('.titleAuthor')
     expect(component.container).toHaveTextContent(
       'React patterns'
-    );
-  });
+    )
+  })
 
   /*  test("Blogs are rendered when an user is logged in", async () => {
 
@@ -84,4 +84,4 @@ describe('<App />', () => {
 
 
     })*/
-});
+})

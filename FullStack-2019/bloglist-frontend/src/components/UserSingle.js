@@ -1,10 +1,10 @@
-import React from 'react';
-import {connect} from "react-redux";
+import React from 'react'
+import { connect } from 'react-redux'
 
-const UserSingle = ({blogs}) => {
+const UserSingle = ({ blogs }) => {
 
   if (blogs.length >= 1) {
-    console.log(blogs);
+    console.log(blogs)
     return (
       <div>
         <h2>{blogs[0].user.username}</h2>
@@ -19,7 +19,7 @@ const UserSingle = ({blogs}) => {
           </div>
         ))}
       </div>
-    );
+    )
   }
   return (
     <div>
@@ -28,20 +28,20 @@ const UserSingle = ({blogs}) => {
   )
 
 
-};
+}
 
 const blogsToShow = (blogs, id) => {
-  return blogs.filter(blog => blog.user.id === id);
-};
+  return blogs.filter(blog => blog.user.id === id)
+}
 
 const mapStateToProps = (state, userId) => {
   return {
     blogs: blogsToShow(state.blogs, userId.userId),
   }
-};
+}
 
 export default connect(
   mapStateToProps,
   null
-)(UserSingle);
+)(UserSingle)
 

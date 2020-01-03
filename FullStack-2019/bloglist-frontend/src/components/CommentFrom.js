@@ -1,41 +1,41 @@
-import React from 'react';
-import {useField} from "../hooks";
-import {commentBlog} from "../reducers/blogReducer";
-import {connect} from "react-redux";
+import React from 'react'
+import { useField } from '../hooks'
+import { commentBlog } from '../reducers/blogReducer'
+import { connect } from 'react-redux'
 
 
-const CommentForm = ({blog, commentBlog}) => {
-  const commentHook = useField('text');
-  const commentInput = Object.assign({}, commentHook);
-  delete commentInput.resetInput;
+const CommentForm = ({ blog, commentBlog }) => {
+  const commentHook = useField('text')
+  const commentInput = Object.assign({}, commentHook)
+  delete commentInput.resetInput
 
 
   const comment = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    console.log(blog);
+    console.log(blog)
     const com = commentHook.value
 
     try {
-      await commentBlog({com, blog})
+      await commentBlog({ com, blog })
 
     } catch (e) {
       console.log(e)
     }
-  };
+  }
 
   return (
     <div>
-      <form onSubmit={comment} class="ui input">
+      <form onSubmit={comment} className="ui input">
 
         <input {...commentHook} />
 
-        <button class="ui button" type="submit">Comment</button>
+        <button className="ui button" type="submit">Comment</button>
 
       </form>
     </div>
-  );
-};
+  )
+}
 
 /*const mapStateToProps = (state) => {
   return {
@@ -45,13 +45,13 @@ const CommentForm = ({blog, commentBlog}) => {
 
 const mapDispatchToProps = {
   commentBlog,
-};
+}
 
 
 export default connect(
   null,
   mapDispatchToProps
-)(CommentForm);
+)(CommentForm)
 
 /*
 export default CommentForm;

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import {render, fireEvent} from '@testing-library/react'
-import BlogForm from "./BlogForm";
+import React, { useState } from 'react'
+import { render, fireEvent } from '@testing-library/react'
+import BlogForm from './BlogForm'
 
 const Wrapper = (props) => {
 
   const onChange = (event) => {
     props.state.value = event.target.value
-  };
+  }
 
   return (
     <BlogForm
@@ -17,21 +17,21 @@ const Wrapper = (props) => {
   )
 
 
-};
+}
 
-describe("LoginForm Tests", () => {
-  test("LoginForm renders but doesnt render App", () => {
-    const onSubmit = jest.fn();
+describe('LoginForm Tests', () => {
+  test('LoginForm renders but doesnt render App', () => {
+    const onSubmit = jest.fn()
     const state = {
       value: ''
-    };
+    }
 
     const component = render(
       <Wrapper  state={state} className="loginForm"/>
-    );
+    )
 
-    component.container.querySelector(".loginForm")
+    component.container.querySelector('.loginForm')
 
 
   })
-});
+})
