@@ -6,7 +6,7 @@ import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { loginUser, logoutUser } from '../reducers/userReducer'
 
-const BlogForm = ({ createBlog, user }) => {
+const BlogForm = ({ createBlog, user, setNotification }) => {
 
   const titleHook = useField('text')
   const authorHook = useField('text')
@@ -34,6 +34,9 @@ const BlogForm = ({ createBlog, user }) => {
         url,
         token
       })
+
+      setNotification({ message: `New Post Made!` }, 2)
+
     } catch (e) {
       setNotification({ message: 'Error with creating blog' }, 2)
       console.log(e)
@@ -48,15 +51,15 @@ const BlogForm = ({ createBlog, user }) => {
           Create a new post!
         </h3>
         <form onSubmit={handleSubmit} className="ui input" id="PostForm">
-          <input {...titleHook} placeholder="Title..."/>
+          <input {...titleHook} placeholder="Title..." id="title"/>
 
           <br/>
-          <input {...authorHook} placeholder="Author..."/>
+          <input {...authorHook} placeholder="Author..." id="author"/>
           <br/>
-          <input {...urlHook} placeholder="URL..."/>
+          <input {...urlHook} placeholder="URL..." id="url"/>
 
           <br/>
-          <button type="submit" className="ui button">Create</button>
+          <button type="submit" className="ui button" id="Create">Create</button>
         </form>
 
       </div>
@@ -73,6 +76,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   createBlog,
+  setNotification
 }
 
 

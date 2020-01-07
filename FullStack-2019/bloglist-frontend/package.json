@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.8.2",
     "axios": "^0.19.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -16,12 +17,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-test": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint .",
     "fix-js": "eslint-auto-fix",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "webpack --mode=production",
+    "start-webpack": "webpack-dev-server --mode=development",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,10 +44,18 @@
   },
   "proxy": "http://localhost:3003",
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^8.0.7",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.0",
+    "cypress": "^3.8.1",
     "eslint": "^6.8.0",
     "eslint-auto-fix": "^1.0.0",
-    "eslint-plugin-jest": "^22.14.1"
+    "eslint-plugin-jest": "^22.14.1",
+    "style-loader": "^1.1.2"
   }
 }

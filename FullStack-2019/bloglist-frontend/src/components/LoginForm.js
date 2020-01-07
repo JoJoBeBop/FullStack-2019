@@ -71,11 +71,11 @@ const LoginForm = ({
     <Form onSubmit={loginEvent} class="ui input">
       <Form.Field>
         <label>Username</label>
-        <input {...usernameInput} />
+        <input {...usernameInput} id="usernameLogin"/>
       </Form.Field>
       <Form.Field>
         <label>Password</label>
-        <input {...passwordInput} />
+        <input {...passwordInput} id="passwordLogin"/>
       </Form.Field>
       <button className="ui button" type='submit'>Login</button>
       <hr/>
