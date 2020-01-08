@@ -41,7 +41,6 @@ const App = () => {
             )}
     };
 
-    //Dumb way to do it, improve it later with booleans
     const handleFilter = (event) => {
         const newArray = filterSearch(persons, event.target.value)
         console.log(newArray);
@@ -69,45 +68,6 @@ const App = () => {
         setNewNumber(event.target.value)
 
     };
-
-    /*    const addNameHook = (event) => {
-
-            console.log("first", isTaken);
-
-            event.preventDefault();
-            const nameObject = {
-                name: newName,
-                number: newNumber
-            };
-
-            const checkHook = () => {
-                const dicks = (bool) => {
-                    setIsTaken(bool);
-
-
-                }
-                console.log("check");
-                persons.map((per) => {
-                    console.log(nameObject.name);
-                    if (per.name === nameObject.name) {
-                        dicks(true)
-                        console.log("second", isTaken);
-                        alert(`${per.name} is already in use pal`)
-
-                    }
-                });
-
-                if (isTaken === false) {
-                    console.log("first 1", isTaken);
-                    createNewPerson(nameObject);
-                }
-
-            }
-            checkHook(event)
-            return [isTaken, ]
-
-        };*/
-
 
     //Adds newName to the list
     const addName = (event) => {
@@ -154,33 +114,6 @@ const App = () => {
             })
     };
 
-
-
-    /*Input stops working when done like this?*/
-    /*    const PersonForm = () => {
-            return (
-                <form onSubmit={addName}>
-                    <h2>Add a New Number</h2>
-
-                    <div>
-                        Name:<br/>
-                        <input type={"text"} value={newName}
-                               onChange={handleNewName}/>
-                    </div>
-                    <div>
-                        Number:<br/>
-                        <input
-                            value={newNumber}
-                            onChange={handleNewNumber}/>
-
-                    </div>
-                    <div>
-                        <button type="submit">add</button>
-                    </div>
-                </form>
-            )
-        };*/
-
     const showPersons = () => {
         return (
             newSearch === false ? (
@@ -205,10 +138,6 @@ const App = () => {
                 <br/>
                 <input onChange={handleFilter}/>
             </div>
-
-            {/*
-            <PersonForm/>
-*/}
             <form onSubmit={addName}>
                 <h2>Add a New Number</h2>
 
