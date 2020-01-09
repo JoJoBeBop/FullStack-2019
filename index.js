@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const {ApolloServer, gql} = require('apollo-server')
 const uuid = require('uuid/v1');
 
 let authors = [
@@ -110,12 +110,18 @@ const typeDefs = gql`
   }
   
   type Mutation {
+  
   addBook (
     title: String!
     author: String!
     published: Int!
     genres: [String]
   ): Book
+  
+  editAuthor(
+    name: String!
+    setBornTo: Int!
+  ): Author
   
   }
 `
@@ -127,43 +133,57 @@ const resolvers = {
     allBooks: (root, args) => {
       if (!args.author && !args.genre) {
         return books
-      } else if (!args.genre){
+      } else if (!args.genre) {
         return books.filter(b => b.author === args.author)
 
       } else if (!args.author && args.genre) {
-        return books.filter(b => b.genres.includes(args.genre) )
+        return books.filter(b => b.genres.includes(args.genre))
 
       } else if (args.author && args.genre) {
         return books.filter(book =>
-            book.author === args.author && book.genres.includes(args.genre)
+          book.author === args.author && book.genres.includes(args.genre)
         );
       }
 
     },
 
     allAuthors: () => authors.map(author => ({
-        ...author,
-        bookCount:
-        books.filter(book => book.author === author.name).length
-      }))
+      ...author,
+      bookCount:
+      books.filter(book => book.author === author.name).length
+    }))
 
 
-    },
+  },
 
   Mutation: {
 
     addBook: (root, args) => {
       const book = {...args, id: uuid()}
       if (!authors.includes(args.author)) {
-        authors = authors.concat({ name: args.author, id: uuid() })
+        authors = authors.concat({name: args.author, id: uuid()})
       }
       books = books.concat(book)
       return book
+    },
+
+    editAuthor: (root, args) => {
+      const editedAuthor = authors.find(a => a.name === args.name)
+      if (!editedAuthor) {
+        return null
+      } else {
+        const updatedAuthor = {...editedAuthor, born: args.setBornTo}
+        authors = authors.map(a =>
+          a.name === args.name ? updatedAuthor : a)
+        return updatedAuthor
+      }
+
+
     }
   }
 
 
-  }
+}
 
 
 const server = new ApolloServer({
@@ -171,6 +191,6 @@ const server = new ApolloServer({
   resolvers,
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({url}) => {
   console.log(`Server ready at ${url}`)
 })
