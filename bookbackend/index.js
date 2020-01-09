@@ -27,12 +27,6 @@ let authors = [
   },
 ]
 
-/*
- * It would be more sensible to assosiate book and the author by saving
- * the author id instead of the name to the book.
- * For simplicity we however save the author name.
-*/
-
 let books = [
   {
     title: 'Clean Code',
@@ -106,7 +100,6 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]
-
   }
   
   type Mutation {
@@ -144,7 +137,6 @@ const resolvers = {
           book.author === args.author && book.genres.includes(args.genre)
         );
       }
-
     },
 
     allAuthors: () => authors.map(author => ({
@@ -152,8 +144,6 @@ const resolvers = {
       bookCount:
       books.filter(book => book.author === author.name).length
     }))
-
-
   },
 
   Mutation: {
@@ -177,12 +167,8 @@ const resolvers = {
           a.name === args.name ? updatedAuthor : a)
         return updatedAuthor
       }
-
-
     }
   }
-
-
 }
 
 
