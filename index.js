@@ -1,62 +1,111 @@
 const { ApolloServer, gql } = require('apollo-server')
 
-let persons = [
+let authors = [
   {
-    name: "Arto Hellas",
-    phone: "040-123543",
-    street: "Tapiolankatu 5 A",
-    city: "Espoo",
-    id: "3d594650-3436-11e9-bc57-8b80ba54c431"
+    name: 'Robert Martin',
+    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
+    born: 1952,
   },
   {
-    name: "Matti Luukkainen",
-    phone: "040-432342",
-    street: "Malminkaari 10 A",
-    city: "Helsinki",
-    id: '3d599470-3436-11e9-bc57-8b80ba54c431'
+    name: 'Martin Fowler',
+    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
+    born: 1963
   },
   {
-    name: "Venla Ruuska",
-    street: "Nallemäentie 22 C",
-    city: "Helsinki",
-    id: '3d599471-3436-11e9-bc57-8b80ba54c431'
+    name: 'Fyodor Dostoevsky',
+    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
+    born: 1821
+  },
+  {
+    name: 'Joshua Kerievsky', // birthyear not known
+    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
+  },
+  {
+    name: 'Sandi Metz', // birthyear not known
+    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+  },
+]
+
+/*
+ * It would be more sensible to assosiate book and the author by saving
+ * the author id instead of the name to the book.
+ * For simplicity we however save the author name.
+*/
+
+let books = [
+  {
+    title: 'Clean Code',
+    published: 2008,
+    author: 'Robert Martin',
+    id: "afa5b6f4-344d-11e9-a414-719c6709cf3e",
+    genres: ['refactoring']
+  },
+  {
+    title: 'Agile software development',
+    published: 2002,
+    author: 'Robert Martin',
+    id: "afa5b6f5-344d-11e9-a414-719c6709cf3e",
+    genres: ['agile', 'patterns', 'design']
+  },
+  {
+    title: 'Refactoring, edition 2',
+    published: 2018,
+    author: 'Martin Fowler',
+    id: "afa5de00-344d-11e9-a414-719c6709cf3e",
+    genres: ['refactoring']
+  },
+  {
+    title: 'Refactoring to patterns',
+    published: 2008,
+    author: 'Joshua Kerievsky',
+    id: "afa5de01-344d-11e9-a414-719c6709cf3e",
+    genres: ['refactoring', 'patterns']
+  },
+  {
+    title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
+    published: 2012,
+    author: 'Sandi Metz',
+    id: "afa5de02-344d-11e9-a414-719c6709cf3e",
+    genres: ['refactoring', 'design']
+  },
+  {
+    title: 'Crime and punishment',
+    published: 1866,
+    author: 'Fyodor Dostoevsky',
+    id: "afa5de03-344d-11e9-a414-719c6709cf3e",
+    genres: ['classic', 'crime']
+  },
+  {
+    title: 'The Demon',
+    published: 1872,
+    author: 'Fyodor Dostoevsky',
+    id: "afa5de04-344d-11e9-a414-719c6709cf3e",
+    genres: ['classic', 'revolution']
   },
 ]
 
 const typeDefs = gql`
-  type Address {
-    street: String!
-    city: String! 
-  }
-
-  type Person {
-    name: String!
-    phone: String
-    address: Address!
+  type Book {
+    title: String!
+    published: Int!
+    author: String!
     id: ID!
   }
 
   type Query {
-    personCount: Int!
-    allPersons: [Person!]!
-    findPerson(name: String!): Person
+    bookCount: Int!
+    authorCount: Int!
+    allBooks: [Book!]!
+    allAuthors: Int!
+
   }
 `
 
 const resolvers = {
   Query: {
-    personCount: () => persons.length,
-    allPersons: () => persons,
-    findPerson: (root, args) =>
-      persons.find(p => p.name === args.name)
-  },
-  Person: {
-    address: (root) => {
-      return {
-        street: root.street,
-        city: root.city
-      }
-    }
+    bookCount: () => books.length,
+    allBooks: () => books,
+    allAuthors: () => authors.length,
   }
 }
 
