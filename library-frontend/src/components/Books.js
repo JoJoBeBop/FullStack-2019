@@ -5,7 +5,7 @@ const Books = (props) => {
     return null
   }
 
-  const books = []
+  const books = props.data.allBooks
 
   return (
     <div>
