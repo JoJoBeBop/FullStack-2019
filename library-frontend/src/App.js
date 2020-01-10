@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { gql } from 'apollo-boost'
-import { useQuery, useMutation } from 'react-apollo'
+import {gql} from 'apollo-boost'
+import {useQuery, useMutation} from 'react-apollo'
 
 const ALL_AUTHORS = gql`
 {
@@ -39,6 +39,15 @@ mutation addBook($title: String!, $author: String!, $published: Int!, $genres: [
 }
 `
 
+const EDIT_BIRTHYEAR = gql`
+mutation editName($author: String!, $year: Int!) {
+    editAuthor(name: $author, setBornTo: $year ) {
+        name
+        born
+      }
+}
+`
+
 const App = () => {
   const [page, setPage] = useState('authors')
 
@@ -47,7 +56,11 @@ const App = () => {
 
   /*Updates*/
   const [addBook] = useMutation(NEW_BOOK, {
-    refetchQueries: [{ query:  ALL_AUTHORS }, { query: ALL_BOOKS }],
+    refetchQueries: [{query: ALL_AUTHORS}, {query: ALL_BOOKS}],
+  })
+
+  const [updateAuthor] = useMutation(EDIT_BIRTHYEAR, {
+    refetchQueries: [{query: ALL_AUTHORS}, {query: ALL_BOOKS}],
   })
 
   return (
@@ -61,6 +74,7 @@ const App = () => {
       <Authors
         show={page === 'authors'}
         result={authors}
+        updateAuthor={updateAuthor}
       />
 
       <Books
@@ -71,7 +85,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
-        addBook={addBook}
+        functions={addBook}
       />
 
     </div>
