@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
+import Select from 'react-select';
+
 
 const Authors = ({result, show, updateAuthor}) => {
 
   console.log(result);
-  const [name, setName] = useState('')
-  const [born, setBorn] = useState('')
+  const [name, setName] = useState("")
+  const [born, setBorn] = useState("")
 
   const submit = async (e) => {
     e.preventDefault()
-
     await updateAuthor({
       variables: { author: name, year: born}
     })
@@ -24,6 +25,14 @@ const Authors = ({result, show, updateAuthor}) => {
   if (result.loading) {
     return "Loading..."
   }
+
+  const options = result.data.allAuthors.map(authors  => {
+      return {
+        value: authors.name,
+        label: authors.name
+      }
+    }
+  )
 
   return (
     <div>
@@ -58,9 +67,10 @@ const Authors = ({result, show, updateAuthor}) => {
         <form onSubmit={submit}>
           <div>
             Name
-            <input
+            <Select
               value={name}
-              onChange={({ target }) => setName(target.value)}
+              onChange={( target ) => setName(target.value)}
+              options={options}
             />
           </div>
 
